@@ -45,7 +45,7 @@ below is a very basic example for logging in and registering a hello command
 which when ran will send hello world into the chat
 
 ```python
-import antiland
+import Antiland
 
 session_token="insert_session_token"
 dialogue="insert_dialogue_id"
