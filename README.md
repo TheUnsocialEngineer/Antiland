@@ -6,7 +6,8 @@ Antiland.py is a python package to turn any antiland user into a fully functioni
 bot account similar to discord.py
 
 ![GitHub](https://img.shields.io/github/license/TheUnsocialEngineer/Anti.py) 
-![PyPI - Version](https://img.shields.io/pypi/v/Antiland.py)
+![PyPI - Version](https://img.shields.io/pypi/v/Antiland.py?labelColor=black&color=blue)
+
 
 
 
