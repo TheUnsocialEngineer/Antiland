@@ -6,6 +6,9 @@ import requests
 import base64
 import requests
 import threading
+from num2words import num2words
+from datetime import datetime
+import inflect
 
 class MessageUpdater(threading.Thread):
     previous_message_text = None
@@ -257,3 +260,39 @@ class Bot():
         else:
             print(f"Request for setting 'about me'failed with status code {response.status_code}.")
             print(response.text)
+    
+    def stats(self,session_token):
+        url = "https://mobile-elb.antich.at/users/me"
+        json_data = {
+            "_method": "GET",
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "76b2aae2-0087-83e5-b86a-1a6d8ab69618",
+            "_SessionToken": session_token
+        }
+        
+        response = requests.post(url, json=json_data)
+        
+        if response.status_code == 200:
+            user_data = response.json()
+
+            def format_date(date_str):
+                date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+                day = num2words(date_obj.day, to='ordinal')
+                month = date_obj.strftime('%B')
+                year = date_obj.year
+                return f"{day}/{month}/{year}"
+
+            # Extract and format the creation date
+            created_iso = user_data.get("createdAt", "N/A")
+            formatted_created = format_date(created_iso)
+
+            # Other important user stats
+            bans= user_data.get("totalBans", "N/A")
+            p = inflect.engine()
+            total_bans_text = p.number_to_words(bans)
+            username = user_data.get("profileName", "N/A")
+            rating = user_data.get("rating", "N/A")
+            msg_count = user_data.get("msgCount", "N/A")
+            pvtc_count = user_data.get("pvtcCount", "N/A")
+            return(username,total_bans_text,rating,msg_count,pvtc_count)
