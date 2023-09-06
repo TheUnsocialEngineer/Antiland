@@ -1,5 +1,5 @@
 .egg-info
 __pycache__
-.bat
+build.bat
 .whl
 .gz
