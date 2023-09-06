@@ -1,1 +1,0 @@
-from .anti import Bot
