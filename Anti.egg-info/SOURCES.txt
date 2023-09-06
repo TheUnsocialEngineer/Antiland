@@ -1,0 +1,5 @@
+setup.py
+Anti.egg-info/PKG-INFO
+Anti.egg-info/SOURCES.txt
+Anti.egg-info/dependency_links.txt
+Anti.egg-info/top_level.txt
