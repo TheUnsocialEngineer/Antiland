@@ -69,7 +69,7 @@ class Bot():
         self.chats = {}
         self.dialogue=dialogue
 
-    def process_message(self, message, sender):
+    def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
             if command in self.commands:
@@ -112,8 +112,6 @@ class Bot():
         return decorator
     
     def send_message(self,message,token=None,dialogue=None):
-        print(dialogue)
-        print(token)
         url="https://mobile-elb.antich.at/classes/Messages"
 
         json={
@@ -190,7 +188,7 @@ class Bot():
             print(f"error: {e}")
             print(" ")
     
-    def send_image(filepath, token, dialogue):
+    def send_image(filepath, token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
         
