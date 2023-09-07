@@ -25,7 +25,7 @@ bot account similar to discord.py
 
 ## Installation
 
-Dillinger requires Python3 to run.
+Antiland requires Python3 to run.
 
 to install run pip3 install Antiland
 
