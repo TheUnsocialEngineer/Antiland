@@ -6,7 +6,7 @@ Antiland.py is a python package to turn any antiland user into a fully functioni
 bot account similar to discord.py
 
 ![GitHub](https://img.shields.io/github/license/TheUnsocialEngineer/Anti.py) 
-![PyPI - Version](https://img.shields.io/pypi/v/Antiland.py?labelColor=black&color=blue&link=https%3A%2F%2Fpypi.org%2Fproject%2FAntiland.py%2F)
+![PyPI - Version](https://img.shields.io/pypi/v/Antiland?labelColor=black&color=blue&link=https%3A%2F%2Fpypi.org%2Fproject%2FAntiland.py%2F)
 
 
 
@@ -25,7 +25,7 @@ bot account similar to discord.py
 
 ## Installation
 
-Dillinger requires Python3 to run.
+Antiland requires Python3 to run.
 
 to install run pip3 install Antiland
 
