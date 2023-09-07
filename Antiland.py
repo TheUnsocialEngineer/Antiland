@@ -191,7 +191,7 @@ class Bot():
             print(f"error: {e}")
             print(" ")
     
-    def send_image(filepath, token=None,dialogue=None):
+    def send_image(self,filepath,token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
         
@@ -296,3 +296,21 @@ class Bot():
             msg_count = user_data.get("msgCount", "N/A")
             pvtc_count = user_data.get("pvtcCount", "N/A")
             return(username,total_bans_text,rating,msg_count,pvtc_count)
+    
+    def translate(token,message,message_id):
+        url="https://mobile-elb.antich.at/functions/translateMessage"
+        json={
+        "text": message,
+        "messageId": message_id,
+        "persist": True,
+        "lang": "en",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "76b2aae2-0087-83e5-b86a-1a6d8ab69618",
+        "_SessionToken": token
+        }
+        translate=requests.post(url,json)
+        translated=translate.json()
+        result = translated.get("result")
+        return(result)
