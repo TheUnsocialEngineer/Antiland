@@ -60,8 +60,7 @@ class MessageUpdater(threading.Thread):
     
 class Bot():
 
-    def __init__(self, url, prefix,dialogue, session_token=None):
-        self.url = url
+    def __init__(self,prefix,dialogue, session_token=None):
         self.prefix = prefix
         self.running = False
         self.token = None
@@ -71,6 +70,7 @@ class Bot():
         self.dialogue=None
         self.chats = {}
         self.dialogue=dialogue
+        self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
 
     def process_message(self, message,token):
         if str(message).startswith(self.prefix):
