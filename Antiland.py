@@ -337,7 +337,7 @@ class Bot():
 
     
 
-    def get_contacts(token):
+    async def get_contacts(self,token):
         url = "https://mobile-elb.antich.at/functions/getContacts"
         json_payload = {
             "v": 10001,
