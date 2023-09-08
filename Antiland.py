@@ -94,6 +94,7 @@ class Bot():
 
     def process_message(self, message,token):
         if str(message).startswith(self.prefix):
+            param=False
             command = message[len(self.prefix):].split(" ")[0]
             try:
                 param =message[len(self.prefix):].split(" ")[1]
