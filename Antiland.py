@@ -92,17 +92,17 @@ class Bot():
         self.dialogue=dialogue
         self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
 
-    async def process_message(self, message,token):
+    def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
             if command in self.commands:
-                await self.commands[command]()
+                self.commands[command]()
 
-    async def start(self,token):
+    def start(self,token):
         if token:
             login=self.login(token)
             main_username=login[2]
-            self.message_updater = MessageUpdater(self.url, main_username, await self.process_message)
+            self.message_updater = MessageUpdater(self.url, main_username, self.process_message)
             self.message_updater.start()
 
     def login(self, token):
@@ -134,7 +134,7 @@ class Bot():
             return func
         return decorator
     
-    async def send_message(self,message,token=None,dialogue=None):
+    def send_message(self,message,token=None,dialogue=None):
         url="https://mobile-elb.antich.at/classes/Messages"
 
         json={
@@ -158,7 +158,7 @@ class Bot():
             print(e)
             print(" ")
 
-    async def send_video(filepath, token, dialogue):
+    def send_video(filepath, token, dialogue):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
         
@@ -211,7 +211,7 @@ class Bot():
             print(f"error: {e}")
             print(" ")
     
-    async def send_image(self,filepath,token=None,dialogue=None):
+    def send_image(self,filepath,token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
         
@@ -260,7 +260,7 @@ class Bot():
             print(e)
             print(" ")
     
-    async def set_bio(token,bio):
+    def set_bio(token,bio):
         url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
 
         data = {
@@ -281,7 +281,7 @@ class Bot():
             print(f"Request for setting 'about me'failed with status code {response.status_code}.")
             print(response.text)
     
-    async def stats(self,session_token):
+    def stats(self,session_token):
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
@@ -317,7 +317,7 @@ class Bot():
             pvtc_count = user_data.get("pvtcCount", "N/A")
             return(username,total_bans_text,rating,msg_count,pvtc_count)
     
-    async def translate(token,message,message_id):
+    def translate(token,message,message_id):
         url="https://mobile-elb.antich.at/functions/translateMessage"
         json={
         "text": message,
@@ -335,7 +335,7 @@ class Bot():
         result = translated.get("result")
         return(result)
 
-    async def get_contacts(self,token):
+    def get_contacts(self,token):
         url = "https://mobile-elb.antich.at/functions/getContacts"
         json_payload = {
             "v": 10001,
