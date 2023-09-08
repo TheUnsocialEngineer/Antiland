@@ -92,17 +92,17 @@ class Bot():
         self.dialogue=dialogue
         self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
 
-    def process_message(self, message,token):
+    async def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
             if command in self.commands:
-                self.commands[command]()
+                await self.commands[command]()
 
-    def start(self,token):
+    async def start(self,token):
         if token:
             login=self.login(token)
             main_username=login[2]
-            self.message_updater = MessageUpdater(self.url, main_username, self.process_message)
+            self.message_updater = MessageUpdater(self.url, main_username, await self.process_message)
             self.message_updater.start()
 
     def login(self, token):
