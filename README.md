@@ -46,10 +46,9 @@ import Antiland
 
 session_token="insert_session_token"
 dialogue="insert_dialogue_id"
-url="insert_chat_url"
 prefix="!"
 
-bot = Antiland.Bot(url,prefix,dialogue,session_token)
+bot = Antiland.Bot(prefix,dialogue,session_token)
 
 @bot.command("hello")
 def say_hello():
