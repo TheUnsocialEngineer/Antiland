@@ -96,11 +96,11 @@ class Bot():
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
             param =message[len(self.prefix):].split(" ")[1]
-            if command in self.commands:
-                self.commands[command]()
-            elif command in self.commands and param:
+            if command in self.commands and param:
                 self.commands[command](param)
-
+            elif command in self.commands:
+                self.commands[command]()
+            
     def start(self,token):
         if token:
             login=self.login(token)
