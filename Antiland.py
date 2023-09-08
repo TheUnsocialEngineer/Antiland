@@ -58,25 +58,25 @@ class MessageUpdater(threading.Thread):
 
 class User:
     def __init__(self, data):
-        self.created_at = data["createdAt"]
-        self.updated_at = data["updatedAt"]
-        self.profile_name = data["profileName"]
-        self.age = data["age"]
-        self.female = data["female"]
-        self.avatar = data["avatar"]
-        self.rating = data["rating"]
-        self.anti_karma = data["antiKarma"]
-        self.blocked_by = data["blockedBy"]
-        self.blessed = data["blessed"]
-        self.vip_exp_date = data["vipExpDate"]["iso"]
-        self.is_admin = data["isAdmin"]
-        self.is_vip = data["isVIP"]
-        self.accessories = data["accessories"]
-        self.premium_avatar = data["premiumAvatar"]
-        self.min_karma = data["minKarma"]
-        self.show_online = data["showOnline"]
-        self.about_me = data["aboutMe"]
-        self.object_id = data["objectId"]
+        self.created_at = data.get("createdAt")
+        self.updated_at = data.get("updatedAt")
+        self.profile_name = data.get("profileName")
+        self.age = data.get("age")
+        self.female = data.get("female")
+        self.avatar = data.get("avatar")
+        self.rating = data.get("rating")
+        self.anti_karma = data.get("antiKarma")
+        self.blocked_by = data.get("blockedBy")
+        self.blessed = data.get("blessed")
+        self.vip_exp_date = data.get("vipExpDate", {}).get("iso")
+        self.is_admin = data.get("isAdmin")
+        self.is_vip = data.get("isVIP")
+        self.accessories = data.get("accessories")
+        self.premium_avatar = data.get("premiumAvatar")
+        self.min_karma = data.get("minKarma")
+        self.show_online = data.get("showOnline")
+        self.about_me = data.get("aboutMe")
+        self.object_id = data.get("objectId")
     
 class Bot():
 
@@ -348,3 +348,15 @@ class Bot():
         data = r.json()
         users = [User(user_data) for user_data in data["result"]]
         return users
+    
+    def add_contact(self,uuid):
+        url="https://www.antichat.me/uat/parse/functions/addContact"
+        json_payload={
+            "contact": uuid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": "r:82a5a3606ba772ff734979cf3ae3797c"
+          }
+        r=requests.post(url,json_payload)
