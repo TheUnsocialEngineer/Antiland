@@ -95,7 +95,10 @@ class Bot():
     def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
-            param =message[len(self.prefix):].split(" ")[1]
+            try:
+                param =message[len(self.prefix):].split(" ")[1]
+            except:
+                pass
             if command in self.commands and param:
                 self.commands[command](param)
             elif command in self.commands:
