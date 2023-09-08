@@ -335,8 +335,6 @@ class Bot():
         result = translated.get("result")
         return(result)
 
-    
-
     async def get_contacts(self,token):
         url = "https://mobile-elb.antich.at/functions/getContacts"
         json_payload = {
