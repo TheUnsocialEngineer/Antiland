@@ -92,7 +92,7 @@ class Bot():
         self.dialogue=dialogue
         self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
 
-    async def process_message(self, message,token):
+    def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
             if command in self.commands:
