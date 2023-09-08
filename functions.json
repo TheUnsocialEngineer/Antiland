@@ -1,0 +1,134 @@
+{
+    "BanUser": {
+      "name": "BanUser",
+      "id": "https://mobile-elb.antich.at/functions/BanUser",
+      "json_payload": null
+    },
+    "loveMessage": {
+      "name": "loveMessage",
+      "id": "https://mobile-elb.antich.at/functions/loveMessage",
+      "json_payload": null
+    },
+    "getMyChats": {
+      "name": "getMyChats",
+      "id": "https://mobile-elb.antich.at/functions/getMyChats",
+      "json_payload": {
+        "laterThen": {
+          "iso": "2023-09-05T05:52:43.519Z",
+          "__type": "Date"
+        },
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+    },
+    "getBlockedUsers": {
+      "name": "getBlockedUsers",
+      "id": "https://mobile-elb.antich.at/functions/getBlockedUsers",
+      "json_payload": {
+        "v": "10001",
+        "version": "10001",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+    },
+    "getContacts": {
+      "name": "getContacts",
+      "id": "https://mobile-elb.antich.at/functions/getContacts",
+      "json_payload": {
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+    },
+    "getDialogue": {
+      "name": "getDialogue",
+      "id": "https://mobile-elb.antich.at/functions/getDialogue",
+      "json_payload": null
+    },
+    "getMessagesAndRemoves": {
+      "name": "getMessagesAndRemoves",
+      "id": "https://mobile-elb.antich.at/functions/getMessagesAndRemoves",
+      "json_payload": {
+        "dialogueId": "m1WusNDqZw",
+        "laterThan": {
+          "iso": "2023-09-05T05:33:54.792Z",
+          "__type": "Date"
+        },
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+    },
+    "canIBan": {
+      "name": "canIBan",
+      "id": "https://mobile-elb.antich.at/functions/canIBan",
+      "json_payload": null
+    },
+    "getDialogueRating": {
+      "name": "getDialogueRating",
+      "id": "https://mobile-elb.antich.at/functions/getDialogueRating",
+      "json_payload": null
+    },
+    "getActiveUsers": {
+      "name": "getActiveUsers",
+      "id": "https://mobile-elb.antich.at/functions/getActiveUsers",
+      "json_payload": {
+        "dialogue": "m1WusNDqZw",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      } 
+    },
+    "translateMessage": {
+      "name": "translateMessage",
+      "id": "https://mobile-elb.antich.at/functions/translateMessage",
+      "json_payload": {
+        "text": "Goodnight weirdos",
+        "messageId": "EApUcHDZay",
+        "persist": true,
+        "lang": "en",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+    },
+    "addMod": {
+      "name": "addMod",
+      "id": "https://mobile-elb.antich.at/functions/addMod",
+      "json_payload": null
+    },
+    "removeMod": {
+      "name": "removeMod",
+      "id": "https://mobile-elb.antich.at/functions/removeMod",
+      "json_payload": null
+    },
+    "deleteMessage": {
+      "name": "deleteMessage",
+      "id": "https://mobile-elb.antich.at/functions/deleteMessage",
+      "json_payload": null
+    },
+    "BlockPrivate": {
+      "name": "BlockPrivate",
+      "id": "https://mobile-elb.antich.at/functions/BlockPrivate",
+      "json_payload": null
+    },
+    "UnblockPrivate": {
+      "name": "UnblockPrivate",
+      "id": "https://mobile-elb.antich.at/functions/UnblockPrivate",
+      "json_payload": null
+    }
+  }
+  

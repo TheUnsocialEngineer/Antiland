@@ -1,0 +1,41 @@
+{
+  "Messages": {
+    "name": "Messages",
+    "id": "https://mobile-elb.antich.at/classes/Messages",
+    "json_payload": {
+        "dialogue": "m1WusNDqZw",
+        "message": "a",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+  },
+  "me": {
+    "name": "me",
+    "id": "https://mobile-elb.antich.at/users/me",
+    "json_payload": {
+        "_method": "GET",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+  },
+  "_user": {
+    "name": "_user",
+    "id": "https://mobile-elb.antich.at/classes/_User/",
+    "json_payload": {
+        "_method": "GET",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+      }
+  },
+  "DataPoints": {
+    "name": "DataPoints",
+    "id": "https://mobile-elb.antich.at/classes/DataPoints",
+    "json_payload": null
+  }
+}
