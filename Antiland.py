@@ -56,7 +56,27 @@ class MessageUpdater(threading.Thread):
     def stop(self):
         self.running = False
 
-
+class User:
+    def __init__(self, data):
+        self.created_at = data["createdAt"]
+        self.updated_at = data["updatedAt"]
+        self.profile_name = data["profileName"]
+        self.age = data["age"]
+        self.female = data["female"]
+        self.avatar = data["avatar"]
+        self.rating = data["rating"]
+        self.anti_karma = data["antiKarma"]
+        self.blocked_by = data["blockedBy"]
+        self.blessed = data["blessed"]
+        self.vip_exp_date = data["vipExpDate"]["iso"]
+        self.is_admin = data["isAdmin"]
+        self.is_vip = data["isVIP"]
+        self.accessories = data["accessories"]
+        self.premium_avatar = data["premiumAvatar"]
+        self.min_karma = data["minKarma"]
+        self.show_online = data["showOnline"]
+        self.about_me = data["aboutMe"]
+        self.object_id = data["objectId"]
     
 class Bot():
 
@@ -72,7 +92,7 @@ class Bot():
         self.dialogue=dialogue
         self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
 
-    def process_message(self, message,token):
+    async def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
             if command in self.commands:
@@ -114,7 +134,7 @@ class Bot():
             return func
         return decorator
     
-    def send_message(self,message,token=None,dialogue=None):
+    async def send_message(self,message,token=None,dialogue=None):
         url="https://mobile-elb.antich.at/classes/Messages"
 
         json={
@@ -138,7 +158,7 @@ class Bot():
             print(e)
             print(" ")
 
-    def send_video(filepath, token, dialogue):
+    async def send_video(filepath, token, dialogue):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
         
@@ -191,7 +211,7 @@ class Bot():
             print(f"error: {e}")
             print(" ")
     
-    def send_image(self,filepath,token=None,dialogue=None):
+    async def send_image(self,filepath,token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
         
@@ -240,7 +260,7 @@ class Bot():
             print(e)
             print(" ")
     
-    def set_bio(token,bio):
+    async def set_bio(token,bio):
         url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
 
         data = {
@@ -261,7 +281,7 @@ class Bot():
             print(f"Request for setting 'about me'failed with status code {response.status_code}.")
             print(response.text)
     
-    def stats(self,session_token):
+    async def stats(self,session_token):
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
@@ -297,7 +317,7 @@ class Bot():
             pvtc_count = user_data.get("pvtcCount", "N/A")
             return(username,total_bans_text,rating,msg_count,pvtc_count)
     
-    def translate(token,message,message_id):
+    async def translate(token,message,message_id):
         url="https://mobile-elb.antich.at/functions/translateMessage"
         json={
         "text": message,
@@ -314,3 +334,19 @@ class Bot():
         translated=translate.json()
         result = translated.get("result")
         return(result)
+
+    
+
+    def get_contacts(token):
+        url = "https://mobile-elb.antich.at/functions/getContacts"
+        json_payload = {
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r = requests.post(url, json=json_payload)
+        data = r.json()
+        users = [User(user_data) for user_data in data["result"]]
+        return users
