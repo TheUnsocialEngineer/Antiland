@@ -40,7 +40,7 @@ class MessageUpdater(threading.Thread):
             return None
         
         self.running = True
-        previous_message_text = None
+        previous_message_text = "a"
         
         while self.running:
             response = requests.get(self.url)
