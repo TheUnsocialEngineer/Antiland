@@ -220,7 +220,6 @@ class Bot():
     
     def send_image(self,filepath,token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
-        print(filepath)
         
         with open(filepath, 'rb') as image_file:
             data = base64.b64encode(image_file.read()).decode("utf-8")
@@ -245,12 +244,11 @@ class Bot():
                 jsoner = json.loads(r.content.decode('utf-8'))
             
             url = jsoner["url"]
-            print(url)
             name = jsoner["name"]
             
             json_payload2 = {
                 "dialogue": dialogue,
-                "message": "",
+                "message": "[photo]",
                 "photo": {
                     "name": name,
                     "url": url,
