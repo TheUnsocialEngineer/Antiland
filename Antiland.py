@@ -374,7 +374,7 @@ class Bot():
           }
         r=requests.post(url,json_payload)
 
-    def get_messages(chatid, token):
+    def get_messages(self,chatid, token):
         url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
         json_payload = {
             "dialogueId": chatid,
