@@ -7,7 +7,16 @@
     "loveMessage": {
       "name": "loveMessage",
       "id": "https://mobile-elb.antich.at/functions/loveMessage",
-      "json_payload": null
+      "json_payload": {
+        "messageId": "f0bhRztAjo",
+        "dialogueId": "m1WusNDqZw",
+        "senderId": "fiCUjXVv0h",
+        "v": 10001,
+        "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+        "_SessionToken": ""
+      }
     },
     "getMyChats": {
       "name": "getMyChats",
@@ -21,7 +30,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       }
     },
     "getBlockedUsers": {
@@ -33,7 +42,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       }
     },
     "getContacts": {
@@ -44,7 +53,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       }
     },
     "getDialogue": {
@@ -65,7 +74,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       }
     },
     "canIBan": {
@@ -87,7 +96,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       } 
     },
     "translateMessage": {
@@ -102,7 +111,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       }
     },
     "addMod": {

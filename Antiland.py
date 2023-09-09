@@ -55,6 +55,13 @@ class MessageUpdater(threading.Thread):
                     
     def stop(self):
         self.running = False
+    
+class Message:
+    def __init__(self, data):
+        self.id = data["objectId"]
+        self.text = data["message"]
+        self.sender_id = data["senderId"]
+        self.dialogue_id = data["dialogue"]
 
 class User:
     def __init__(self, data):
@@ -355,7 +362,7 @@ class Bot():
         users = [User(user_data) for user_data in data["result"]]
         return users
     
-    def add_contact(self,uuid):
+    def add_contact(self,uuid,token):
         url="https://www.antichat.me/uat/parse/functions/addContact"
         json_payload={
             "contact": uuid,
@@ -363,6 +370,40 @@ class Bot():
             "_ApplicationId": "VxfAeNw8Vuw2XKCN",
             "_ClientVersion": "js1.11.1",
             "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
-            "_SessionToken": "r:82a5a3606ba772ff734979cf3ae3797c"
+            "_SessionToken": token
           }
+        r=requests.post(url,json_payload)
+
+    def get_messages(chatid, token):
+        url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
+        json_payload = {
+            "dialogueId": chatid,
+            "laterThan": {
+                "iso": "2023-09-05T05:33:54.792Z",
+                "__type": "Date"
+            },
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r = requests.post(url, json=json_payload)
+        data = r.json()
+        messages_data = data["result"]["messages"]
+        messages = [Message(message_data) for message_data in messages_data]
+        return messages
+
+    def like_message(self,messageid,senderid,token,dialogue):
+        url="https://mobile-elb.antich.at/functions/loveMessage"
+        json_payload={
+            "messageId": messageid,
+            "dialogueId": dialogue,
+            "senderId": senderid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+        }
         r=requests.post(url,json_payload)
