@@ -406,6 +406,4 @@ class Bot():
             "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
             "_SessionToken": token
         }
-        print(json_payload)
         r=requests.post(url,json_payload)
-        print(r.text)
