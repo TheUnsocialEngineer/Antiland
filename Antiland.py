@@ -245,6 +245,7 @@ class Bot():
                 jsoner = json.loads(r.content.decode('utf-8'))
             
             url = jsoner["url"]
+            print(url)
             name = jsoner["name"]
             
             json_payload2 = {
