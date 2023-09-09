@@ -220,7 +220,6 @@ class Bot():
     
     def send_image(self,filepath,token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
-        filepath = filepath.replace("\\", "/")
         print(filepath)
         
         with open(filepath, 'rb') as image_file:
