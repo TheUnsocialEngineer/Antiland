@@ -395,7 +395,7 @@ class Bot():
         return messages
 
     def like_message(self,messageid,senderid,token,dialogue):
-        url="https://mobile-elb.antich.at/functions/loveMessage"
+        url="https://www.antichat.me/uat/parse/functions/loveMessage"
         json_payload={
             "messageId": messageid,
             "dialogueId": dialogue,
@@ -406,4 +406,6 @@ class Bot():
             "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
             "_SessionToken": token
         }
+        print(json_payload)
         r=requests.post(url,json_payload)
+        print(r.text)

@@ -6,7 +6,7 @@
     },
     "loveMessage": {
       "name": "loveMessage",
-      "id": "https://mobile-elb.antich.at/functions/loveMessage",
+      "id": "https://www.antichat.me/uat/parse/functions/loveMessage",
       "json_payload": {
         "messageId": "f0bhRztAjo",
         "dialogueId": "m1WusNDqZw",
