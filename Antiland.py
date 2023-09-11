@@ -40,7 +40,7 @@ class MessageUpdater(threading.Thread):
             return None
         
         self.running = True
-        previous_message_text = None
+        previous_message_text = ""
         
         while self.running:
             response = requests.get(self.url)
@@ -55,50 +55,35 @@ class MessageUpdater(threading.Thread):
                     
     def stop(self):
         self.running = False
+    
+class Message:
+    def __init__(self, data):
+        self.id = data["objectId"]
+        self.text = data["message"]
+        self.sender_id = data["senderId"]
+        self.dialogue_id = data["dialogue"]
 
 class User:
     def __init__(self, data):
-        self.created_at = data["createdAt"]
-        self.updated_at = data["updatedAt"]
-        self.profile_name = data["profileName"]
-        self.age = data["age"]
-        self.female = data["female"]
-        self.avatar = data["avatar"]
-        self.rating = data["rating"]
-        self.anti_karma = data["antiKarma"]
-        self.blocked_by = data["blockedBy"]
-        self.blessed = data["blessed"]
-        self.vip_exp_date = data["vipExpDate"]["iso"]
-        self.is_admin = data["isAdmin"]
-        self.is_vip = data["isVIP"]
-        self.accessories = data["accessories"]
-        self.premium_avatar = data["premiumAvatar"]
-        self.min_karma = data["minKarma"]
-        self.show_online = data["showOnline"]
-        self.about_me = data["aboutMe"]
-        self.object_id = data["objectId"]
-
-class Account:
-    def __init__(self, data):
-        self.username = data.get("profileName", "N/A")
-        self.total_bans = data.get("totalBans", "N/A")
-        self.rating = data.get("rating", "N/A")
-        self.msg_count = data.get("msgCount", "N/A")
-        self.pvtc_count = data.get("pvtcCount", "N/A")
-
-    def format_date(self, date_str):
-        date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
-        day = num2words(date_obj.day, to='ordinal')
-        month = date_obj.strftime('%B')
-        year = date_obj.year
-        return f"{day}/{month}/{year}"
-
-    def created_date(self, date_str):
-        return self.format_date(date_str)
-
-    def __str__(self):
-        return f"Username: {self.username}\nTotal Bans: {self.total_bans}\nRating: {self.rating}\nMessage Count: {self.msg_count}\nPrivate Chat Count: {self.pvtc_count}"
-
+        self.created_at = data.get("createdAt")
+        self.updated_at = data.get("updatedAt")
+        self.profile_name = data.get("profileName")
+        self.age = data.get("age")
+        self.female = data.get("female")
+        self.avatar = data.get("avatar")
+        self.rating = data.get("rating")
+        self.anti_karma = data.get("antiKarma")
+        self.blocked_by = data.get("blockedBy")
+        self.blessed = data.get("blessed")
+        self.vip_exp_date = data.get("vipExpDate", {}).get("iso")
+        self.is_admin = data.get("isAdmin")
+        self.is_vip = data.get("isVIP")
+        self.accessories = data.get("accessories")
+        self.premium_avatar = data.get("premiumAvatar")
+        self.min_karma = data.get("minKarma")
+        self.show_online = data.get("showOnline")
+        self.about_me = data.get("aboutMe")
+        self.object_id = data.get("objectId")
     
 class Bot():
 
@@ -116,10 +101,17 @@ class Bot():
 
     def process_message(self, message,token):
         if str(message).startswith(self.prefix):
+            param=False
             command = message[len(self.prefix):].split(" ")[0]
-            if command in self.commands:
+            try:
+                param =message[len(self.prefix):].split(" ")[1]
+            except:
+                pass
+            if command in self.commands and param:
+                self.commands[command](param)
+            elif command in self.commands:
                 self.commands[command]()
-
+            
     def start(self,token):
         if token:
             login=self.login(token)
@@ -235,7 +227,6 @@ class Bot():
     
     def send_image(self,filepath,token=None,dialogue=None):
         # Convert backslashes to forward slashes in the file path
-        filepath = filepath.replace("\\", "/")
         
         with open(filepath, 'rb') as image_file:
             data = base64.b64encode(image_file.read()).decode("utf-8")
@@ -264,7 +255,7 @@ class Bot():
             
             json_payload2 = {
                 "dialogue": dialogue,
-                "message": "",
+                "message": "[photo]",
                 "photo": {
                     "name": name,
                     "url": url,
@@ -354,3 +345,49 @@ class Bot():
         data = r.json()
         users = [User(user_data) for user_data in data["result"]]
         return users
+    
+    def add_contact(self,uuid,token):
+        url="https://www.antichat.me/uat/parse/functions/addContact"
+        json_payload={
+            "contact": uuid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+          }
+        r=requests.post(url,json_payload)
+
+    def get_messages(self,chatid, token):
+        url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
+        json_payload = {
+            "dialogueId": chatid,
+            "laterThan": {
+                "iso": "2023-09-05T05:33:54.792Z",
+                "__type": "Date"
+            },
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r = requests.post(url, json=json_payload)
+        data = r.json()
+        messages_data = data["result"]["messages"]
+        messages = [Message(message_data) for message_data in messages_data]
+        return messages
+
+    def like_message(self,messageid,senderid,token,dialogue):
+        url="https://www.antichat.me/uat/parse/functions/loveMessage"
+        json_payload={
+            "messageId": messageid,
+            "dialogueId": dialogue,
+            "senderId": senderid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
