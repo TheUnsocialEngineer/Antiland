@@ -56,6 +56,48 @@ class MessageUpdater(threading.Thread):
     def stop(self):
         self.running = False
 
+class Account:
+    def __init__(self, data):
+        self.objectId = data.get("objectId")
+        self.lastOpen = data.get("lastOpen")
+        self.userLangs = data.get("userLangs")
+        self.username = data.get("username")
+        self.country = data.get("country")
+        self.lang = data.get("lang")
+        self.avatar = data.get("avatar")
+        self.likesMale = data.get("likesMale")
+        self.likesFemale = data.get("likesFemale")
+        self.color = data.get("color")
+        self.antiKarma = data.get("antiKarma")
+        self.rating = data.get("rating")
+        self.msgCount = data.get("msgCount")
+        self.pvtcCount = data.get("pvtcCount")
+        self.age = data.get("age")
+        self.search = data.get("search")
+        self.createdAt = data.get("createdAt")
+        self.updatedAt = data.get("updatedAt")
+        self.quest = data.get("quest")
+        self.profileName = data.get("profileName")
+        self.pvtChannelId = data.get("pvtChannelId")
+        self.dOk = data.get("dOk")
+        self.blockedBy = data.get("blockedBy")
+        self.totalBans = data.get("totalBans")
+        self.more = data.get("more")
+        self.female = data.get("female")
+        self.minKarma = data.get("minKarma")
+        self.acceptRandoms = data.get("acceptRandoms")
+        self.lastChangeDate = data.get("lastChangeDate")
+        self.email = data.get("email")
+        self.emailIsVerified = data.get("emailIsVerified")
+        self.artifacts = data.get("artifacts")
+        self.lastAction = data.get("lastAction")
+        self.authData = data.get("authData")
+        self.emailIsValid = data.get("emailIsValid")
+        self.ACL = data.get("ACL")
+        self.__type = data.get("__type")
+        self.className = data.get("className")
+        self.sessionToken = data.get("sessionToken")
+
 class User:
     def __init__(self, data):
         self.created_at = data["createdAt"]
@@ -78,15 +120,6 @@ class User:
         self.about_me = data["aboutMe"]
         self.object_id = data["objectId"]
 
-class Account:
-    def __init__(self, data):
-        self.username = data["profileName"]
-        self.total_bans = data["totalBans"]
-        self.rating = data["rating"]
-        self.msg_count = data["msgCount"]
-        self.pvtc_count = data["pvtcCount"]
-        self.blockedBy = data["blockedBy"]
-
     def format_date(self, date_str):
         date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
         day = num2words(date_obj.day, to='ordinal')
@@ -100,6 +133,12 @@ class Account:
     def __str__(self):
         return f"Username: {self.username}\nTotal Bans: {self.total_bans}\nRating: {self.rating}\nMessage Count: {self.msg_count}\nPrivate Chat Count: {self.pvtc_count}"
 
+class Message:
+    def __init__(self, data):
+        self.id = data["objectId"]
+        self.text = data["message"]
+        self.sender_id = data["senderId"]
+        self.dialogue_id = data["dialogue"]
     
 class Bot():
 
@@ -318,8 +357,8 @@ class Bot():
 
         if response.status_code == 200:
             user_data = response.json()
-            user = [Account(user_data) for user_data in user_data]
-            return user
+            account = Account(user_data)
+            return account
         else:
             return None
 
@@ -355,3 +394,49 @@ class Bot():
         data = r.json()
         users = [User(user_data) for user_data in data["result"]]
         return users
+
+    def add_contact(self,uuid,token):
+        url="https://www.antichat.me/uat/parse/functions/addContact"
+        json_payload={
+            "contact": uuid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+          }
+        r=requests.post(url,json_payload)
+
+    def get_messages(self,chatid, token):
+        url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
+        json_payload = {
+            "dialogueId": chatid,
+            "laterThan": {
+                "iso": "2023-09-05T05:33:54.792Z",
+                "__type": "Date"
+            },
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r = requests.post(url, json=json_payload)
+        data = r.json()
+        messages_data = data["result"]["messages"]
+        messages = [Message(message_data) for message_data in messages_data]
+        return messages
+
+    def like_message(self,messageid,senderid,token,dialogue):
+        url="https://www.antichat.me/uat/parse/functions/loveMessage"
+        json_payload={
+            "messageId": messageid,
+            "dialogueId": dialogue,
+            "senderId": senderid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
