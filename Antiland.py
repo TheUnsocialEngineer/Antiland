@@ -47,7 +47,6 @@ class MessageUpdater(threading.Thread):
             if response.status_code == 200:
                 json_response = response.json()
                 message_text = extract_message_text(json_response)
-                previous_message_text=message_text
                 message_sender = extract_message_sender(json_response)
                 message_content = f"{message_sender}: {message_text}"
                 if message_text and message_text != previous_message_text and message_sender == self.username:
