@@ -109,15 +109,22 @@ class User:
         self.rating = data["rating"]
         self.anti_karma = data["antiKarma"]
         self.blocked_by = data["blockedBy"]
-        self.blessed = data["blessed"]
-        self.vip_exp_date = data["vipExpDate"]["iso"]
-        self.is_admin = data["isAdmin"]
-        self.is_vip = data["isVIP"]
-        self.accessories = data["accessories"]
-        self.premium_avatar = data["premiumAvatar"]
-        self.min_karma = data["minKarma"]
-        self.show_online = data["showOnline"]
-        self.about_me = data["aboutMe"]
+        
+        # Fields with .get()
+        self.blessed = data.get("blessed")
+        vip_exp_date = data.get("vipExpDate")
+        self.vip_exp_date = vip_exp_date["iso"] if vip_exp_date else None
+        
+        self.is_admin = data.get("isAdmin")
+        self.is_vip = data.get("isVIP")
+        self.accessories = data.get("accessories")
+        self.premium_avatar = data.get("premiumAvatar")
+        
+        # Fields with .get()
+        self.min_karma = data.get("minKarma")
+        self.show_online = data.get("showOnline")
+        self.about_me = data.get("aboutMe")
+        
         self.object_id = data["objectId"]
 
     def format_date(self, date_str):
@@ -157,7 +164,10 @@ class Bot():
     def process_message(self, message,token):
         if str(message).startswith(self.prefix):
             command = message[len(self.prefix):].split(" ")[0]
-            if command in self.commands:
+            param=message[len(self.prefix):].split(" ")[1]
+            if command in self.commands and param:
+                self.commands[command](param)
+            elif command in self.commands:
                 self.commands[command]()
 
     def start(self,token):
