@@ -80,12 +80,12 @@ class User:
 
 class Account:
     def __init__(self, data):
-        self.username = data.get("profileName", "N/A")
-        self.total_bans = data.get("totalBans", "N/A")
-        self.rating = data.get("rating", "N/A")
-        self.msg_count = data.get("msgCount", "N/A")
-        self.pvtc_count = data.get("pvtcCount", "N/A")
-        self.blockedBy = data.get("blockedBy", "N/A")
+        self.username = data["profileName"]
+        self.total_bans = data["totalBans"]
+        self.rating = data["rating"]
+        self.msg_count = data["msgCount"]
+        self.pvtc_count = data["pvtcCount"]
+        self.blockedBy = data["blockedBy"]
 
     def format_date(self, date_str):
         date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
