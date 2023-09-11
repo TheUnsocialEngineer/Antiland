@@ -85,7 +85,7 @@ class Account:
         self.rating = data.get("rating", "N/A")
         self.msg_count = data.get("msgCount", "N/A")
         self.pvtc_count = data.get("pvtcCount", "N/A")
-        
+        self.blockedBy = data.get("blockedBy", "N/A")
 
     def format_date(self, date_str):
         date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
