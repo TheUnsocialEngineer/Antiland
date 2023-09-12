@@ -4,5 +4,17 @@ setup(
     name="Antiland",
     version="0.72",
     packages=find_packages(),
-    install_requires=[],
+    install_requires=[
+        "requests",
+        "base64",
+        "requests",
+        "json",
+        "requests",
+        "base64",
+        "requests",
+        "threading",
+        "num2words",
+        "datetime",
+        "inflect"
+        ],
 )
