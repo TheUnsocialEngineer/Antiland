@@ -161,14 +161,20 @@ class Bot():
         self.dialogue=dialogue
         self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
 
-    def process_message(self, message,token):
+    def process_message(self, message, token):
         if str(message).startswith(self.prefix):
-            command = message[len(self.prefix):].split(" ")[0]
-            param=message[len(self.prefix):].split(" ")[1]
-            if command in self.commands and param:
-                self.commands[command](param)
-            elif command in self.commands:
-                self.commands[command]()
+            parts = message[len(self.prefix):].split(" ")
+            if len(parts) >= 1:  # Check if there is at least one part (the command itself)
+                command = parts[0]
+                if len(parts) >= 2:  # Check if there is a parameter
+                    param = parts[1]
+                else:
+                    param = None  # No parameter provided
+                if command in self.commands:
+                    if param is not None:
+                        self.commands[command](param)
+                    else:
+                        self.commands[command]()
 
     def start(self,token):
         if token:
