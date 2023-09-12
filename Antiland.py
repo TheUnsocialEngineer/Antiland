@@ -100,15 +100,15 @@ class Account:
 
 class User:
     def __init__(self, data):
-        self.created_at = data["createdAt"]
-        self.updated_at = data["updatedAt"]
-        self.profile_name = data["profileName"]
-        self.age = data["age"]
-        self.female = data["female"]
-        self.avatar = data["avatar"]
-        self.rating = data["rating"]
-        self.anti_karma = data["antiKarma"]
-        self.blocked_by = data["blockedBy"]
+        self.created_at = data.get("createdAt")
+        self.updated_at = data.get("updatedAt")
+        self.profile_name = data.get("profileName")
+        self.age = data.get("age")
+        self.female = data.get("female")
+        self.avatar = data.get("avatar")
+        self.rating = data.get("rating")
+        self.anti_karma = data.get("antiKarma")
+        self.blocked_by = data.get("blockedBy")
         
         # Fields with .get()
         self.blessed = data.get("blessed")
@@ -125,7 +125,7 @@ class User:
         self.show_online = data.get("showOnline")
         self.about_me = data.get("aboutMe")
         
-        self.object_id = data["objectId"]
+        self.object_id = data.get("objectId")
 
     def format_date(self, date_str):
         date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -320,7 +320,7 @@ class Bot():
             
             json_payload2 = {
                 "dialogue": dialogue,
-                "message": "",
+                "message": "[photo]",
                 "photo": {
                     "name": name,
                     "url": url,
