@@ -378,7 +378,6 @@ class Bot():
         else:
             return None
 
-    
     def translate(token,message,message_id):
         url="https://mobile-elb.antich.at/functions/translateMessage"
         json={
@@ -453,6 +452,56 @@ class Bot():
             "_ApplicationId": "VxfAeNw8Vuw2XKCN",
             "_ClientVersion": "js1.11.1",
             "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
+
+    def block_user(self,uuid,token):
+        url="https://mobile-elb.antich.at/functions/BlockPrivate"
+        json_payload={
+            "blockedId": uuid,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
+    
+    def unblock_user(self,uuid,token):
+        url="https://mobile-elb.antich.at/functions/UnblockPrivate"
+        json_payload={
+            "blockedId": uuid,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
+    
+    def add_mod(self,uuid,dialogue,token):
+        url="https://mobile-elb.antich.at/functions/addMod"
+        json_payload={
+            "modId": uuid,
+            "dialogue": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
+    
+    def remove_mod(self,uuid,dialogue,token):
+        url="https://mobile-elb.antich.at/functions/removeMod"
+        json_payload={
+            "modId": uuid,
+            "dialogue": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
             "_SessionToken": token
         }
         r=requests.post(url,json_payload)
