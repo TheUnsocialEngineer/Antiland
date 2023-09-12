@@ -108,12 +108,28 @@
     "addMod": {
       "name": "addMod",
       "id": "https://mobile-elb.antich.at/functions/addMod",
-      "json_payload": null
+      "json_payload": {
+        "modId": "",
+        "dialogue": "",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": ""
+      }
     },
     "removeMod": {
       "name": "removeMod",
       "id": "https://mobile-elb.antich.at/functions/removeMod",
-      "json_payload": null
+      "json_payload": {
+        "modId": "",
+        "dialogue": "",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": ""
+      }
     },
     "deleteMessage": {
       "name": "deleteMessage",
@@ -123,12 +139,26 @@
     "BlockPrivate": {
       "name": "BlockPrivate",
       "id": "https://mobile-elb.antich.at/functions/BlockPrivate",
-      "json_payload": null
+      "json_payload": {
+        "blockedId": "",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": ""
+      }
     },
     "UnblockPrivate": {
       "name": "UnblockPrivate",
       "id": "https://mobile-elb.antich.at/functions/UnblockPrivate",
-      "json_payload": null
+      "json_payload": {
+        "blockedId": "",
+        "v": 10001,
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": ""
+      }
     }
   }
   
