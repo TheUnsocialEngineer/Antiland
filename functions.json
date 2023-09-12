@@ -7,7 +7,16 @@
     "loveMessage": {
       "name": "loveMessage",
       "id": "https://mobile-elb.antich.at/functions/loveMessage",
-      "json_payload": null
+      "json_payload": {
+        "messageId": "",
+        "dialogueId": "",
+        "senderId": "",
+        "v": 10001,
+        "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+        "_SessionToken": ""
+    }
     },
     "getMyChats": {
       "name": "getMyChats",
