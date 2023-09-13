@@ -7,6 +7,7 @@ bot account similar to discord.py
 
 ![GitHub](https://img.shields.io/github/license/TheUnsocialEngineer/Anti.py) 
 ![PyPI - Version](https://img.shields.io/pypi/v/Antiland?labelColor=black&color=blue&link=https%3A%2F%2Fpypi.org%2Fproject%2FAntiland.py%2F)
+![PyPI - Downloads](https://img.shields.io/pypi/dw/Antiland)
 
 
 
