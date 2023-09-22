@@ -146,7 +146,22 @@ class Message:
         self.text = data["message"]
         self.sender_id = data["senderId"]
         self.dialogue_id = data["dialogue"]
-    
+
+class Dialogue:
+    def __init__(self, data):
+        self.lang = data["lang"]
+        self.groupAdmins = data["groupAdmins"]
+        self.lastmessage = data["lastmessage"]
+        self.objectId = data["objectId"]
+        self.guestname = data["guestname"]
+        self.foundername = data["foundername"]
+        self.founderId = data["founderId"]
+        self.private = data["private"]
+        self.public = data["public"]
+        self.humanLink = data["humanLink"]
+        self.accepted = data["accepted"]
+        self.flags = data["flags"]
+
 class Bot():
 
     def __init__(self,prefix,dialogue, session_token=None):
@@ -505,3 +520,18 @@ class Bot():
             "_SessionToken": token
         }
         r=requests.post(url,json_payload)
+    
+    def get_chat(dialogue,token):
+        url="https://mobile-elb.antich.at/functions/getDialogue"
+        json_payload={
+            "dialogueId": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+            }
+        r=requests.post(url,json_payload)
+        data = r.json()
+        dialogue = Dialogue(data["result"])
+        return dialogue
