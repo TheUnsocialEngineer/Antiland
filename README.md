@@ -53,7 +53,8 @@ bot = anti.Bot(prefix,dialogue,session_token)
 
 @bot.command("hello")
 def say_hello():
-    bot.send_message("hello world",session_token,dialogue)
+    room=bot.get_dialogue(dialogue,session_token)
+    room.send_message("hello world",session_token,dialogue)
 
 
 
