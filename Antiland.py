@@ -149,18 +149,18 @@ class Message:
 
 class Dialogue:
     def __init__(self, data):
-        self.lang = data["lang"]
-        self.groupAdmins = data["groupAdmins"]
+        self.lang = data.get("lang")
+        self.groupAdmins = data.get("groupAdmins")
         self.lastmessage = data["lastmessage"]
         self.objectId = data["objectId"]
-        self.guestname = data["guestname"]
+        self.guestname = data.get("guestname")
         self.foundername = data["foundername"]
         self.founderId = data["founderId"]
-        self.private = data["private"]
-        self.public = data["public"]
-        self.humanLink = data["humanLink"]
-        self.accepted = data["accepted"]
-        self.flags = data["flags"]
+        self.private = data.get("private")
+        self.public = data.get("public")
+        self.humanLink = data.get("humanLink")
+        self.accepted = data.get("accepted")
+        self.flags = data.get("flags")
 
 class Bot():
 
@@ -436,6 +436,18 @@ class Bot():
             "_SessionToken": token
           }
         r=requests.post(url,json_payload)
+    
+    def delete_contact(self,uuid,token):
+        url="https://mobile-elb.antich.at/functions/deleteContact"
+        json_payload={
+            "contact": uuid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+          }
+        r=requests.post(url,json_payload)
 
     def get_messages(self,chatid, token):
         url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
@@ -521,7 +533,7 @@ class Bot():
         }
         r=requests.post(url,json_payload)
     
-    def get_chat(dialogue,token):
+    def get_dialogue(self,dialogue,token):
         url="https://mobile-elb.antich.at/functions/getDialogue"
         json_payload={
             "dialogueId": dialogue,
