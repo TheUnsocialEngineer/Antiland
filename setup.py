@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Antiland",
-    version="0.76.5",
+    version="0.77.6",
     packages=find_packages(),
     install_requires=[
         "requests",
