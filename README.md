@@ -32,7 +32,7 @@ to install run pip3 install Antiland
 
 ## Usage/Examples
 
-before you start you need to get the session token and a dialogue id
+before you start you need to get the session token which will allow you to log into the account
 
 to get the token and chat ID you use developer consoles network tab to look at any outgoing connection such as a sending a message, the session token is stored in the json payload e.g 
 
@@ -40,7 +40,8 @@ to get the token and chat ID you use developer consoles network tab to look at a
 
 
 below is a very basic example for logging in and registering a hello command
-which when ran will send hello world into the chat
+which when ran will send hello world into the chat and register a debug command
+which will send a message to the channel of your choice
 
 ```python
 import Antiland
@@ -56,7 +57,10 @@ def say_hello():
     room=bot.get_dialogue(dialogue,session_token)
     room.send_message("hello world",session_token,dialogue)
 
-
+@bot.command("debug")
+def debug():
+    room=bot.get_dialogue("enter dialogue id here",session_token)
+    room.send_message("hello world",session_token,dialogue)
 
 if __name__ == "__main__":
     bot.start(session_token)
