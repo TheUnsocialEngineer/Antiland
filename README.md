@@ -32,9 +32,9 @@ to install run pip3 install Antiland
 
 ## Usage/Examples
 
-before you start you need to get the session token which will allow you to log into the account
+before you start you need to get the session token which will allow you to log into the account and the dialogue id of the chat you want to listen for commands in
 
-to get the token and chat ID you use developer consoles network tab to look at any outgoing connection such as a sending a message, the session token is stored in the json payload e.g 
+to get the token and you use developer consoles network tab to look at any outgoing connection such as a sending a message, the session token is stored in the json payload e.g 
 
 ![App Screenshot](https://i.imgur.com/ZkVi80e.png)
 
