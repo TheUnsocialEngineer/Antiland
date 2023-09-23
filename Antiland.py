@@ -161,71 +161,20 @@ class Dialogue:
         self.humanLink = data.get("humanLink")
         self.accepted = data.get("accepted")
         self.flags = data.get("flags")
-
-class Bot():
-
-    def __init__(self,prefix,dialogue, session_token=None):
-        self.prefix = prefix
-        self.running = False
-        self.token = None
-        self.session_token = session_token
-        self.message_updater = None
-        self.commands = {}
-        self.dialogue=None
-        self.chats = {}
-        self.dialogue=dialogue
-        self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
-
-    def process_message(self, message, token):
-        if str(message).startswith(self.prefix):
-            parts = message[len(self.prefix):].split(" ")
-            if len(parts) >= 1:  # Check if there is at least one part (the command itself)
-                command = parts[0]
-                if len(parts) >= 2:  # Check if there is a parameter
-                    param = parts[1]
-                else:
-                    param = None  # No parameter provided
-                if command in self.commands:
-                    if param is not None:
-                        self.commands[command](param)
-                    else:
-                        self.commands[command]()
-
-    def start(self,token):
-        if token:
-            login=self.login(token)
-            main_username=login[2]
-            self.message_updater = MessageUpdater(self.url, main_username, self.process_message)
-            self.message_updater.start()
-
-    def login(self, token):
-        url="https://mobile-elb.antich.at/users/me"
-        json_data={
-        "_method": "GET",
-        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-        "_ClientVersion": "js1.11.1",
-        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": token
-        }
-        response = requests.post(url, json=json_data)
-        
-        if response.status_code == 200:
-            user_data = response.json()
-            username = user_data.get("profileName", "N/A")
-            gender=user_data.get("female", "N/A")
-            if gender:
-                emoji="🚺"
-            else:
-                emoji="🚹"
-            main_name=f"{username} {emoji}"
-            print("Logged in as {}".format(username))
-            return(username,gender,main_name)
     
-    def command(self, name):
-        def decorator(func):
-            self.commands[name] = func
-            return func
-        return decorator
+    def like_message(self,messageid,senderid,token,dialogue):
+        url="https://www.antichat.me/uat/parse/functions/loveMessage"
+        json_payload={
+            "messageId": messageid,
+            "dialogueId": dialogue,
+            "senderId": senderid,
+            "v": 10001,
+            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
     
     def send_message(self,message,token=None,dialogue=None):
         url="https://mobile-elb.antich.at/classes/Messages"
@@ -250,7 +199,7 @@ class Bot():
         except Exception as e:
             print(e)
             print(" ")
-
+    
     def send_video(filepath, token, dialogue):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
@@ -352,6 +301,120 @@ class Bot():
         except Exception as e:
             print(e)
             print(" ")
+
+    def get_messages(self,chatid, token):
+        url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
+        json_payload = {
+            "dialogueId": chatid,
+            "laterThan": {
+                "iso": "2023-09-05T05:33:54.792Z",
+                "__type": "Date"
+            },
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r = requests.post(url, json=json_payload)
+        data = r.json()
+        messages_data = data["result"]["messages"]
+        messages = [Message(message_data) for message_data in messages_data]
+        return messages
+    
+    def add_mod(self,uuid,dialogue,token):
+        url="https://mobile-elb.antich.at/functions/addMod"
+        json_payload={
+            "modId": uuid,
+            "dialogue": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
+    
+    def remove_mod(self,uuid,dialogue,token):
+        url="https://mobile-elb.antich.at/functions/removeMod"
+        json_payload={
+            "modId": uuid,
+            "dialogue": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+        r=requests.post(url,json_payload)
+
+class Bot():
+
+    def __init__(self,prefix,dialogue, session_token=None):
+        self.prefix = prefix
+        self.running = False
+        self.token = None
+        self.session_token = session_token
+        self.message_updater = None
+        self.commands = {}
+        self.dialogue=None
+        self.chats = {}
+        self.dialogue=dialogue
+        self.url=f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
+
+    def process_message(self, message, token):
+        if str(message).startswith(self.prefix):
+            parts = message[len(self.prefix):].split(" ")
+            if len(parts) >= 1:  # Check if there is at least one part (the command itself)
+                command = parts[0]
+                if len(parts) >= 2:  # Check if there is a parameter
+                    param = parts[1]
+                else:
+                    param = None  # No parameter provided
+                if command in self.commands:
+                    if param is not None:
+                        self.commands[command](param)
+                    else:
+                        self.commands[command]()
+    
+    def start(self,token):
+        if token:
+            login=self.login(token)
+            main_username=login[2]
+            self.message_updater = MessageUpdater(self.url, main_username, self.process_message)
+            self.message_updater.start()
+
+    def login(self, token):
+        url="https://mobile-elb.antich.at/users/me"
+        json_data={
+        "_method": "GET",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": token
+        }
+        response = requests.post(url, json=json_data)
+        
+        if response.status_code == 200:
+            user_data = response.json()
+            username = user_data.get("profileName", "N/A")
+            gender=user_data.get("female", "N/A")
+            if gender:
+                emoji="🚺"
+            else:
+                emoji="🚹"
+            main_name=f"{username} {emoji}"
+            print("Logged in as {}".format(username))
+            return(username,gender,main_name)
+    
+    def command(self, name):
+        def decorator(func):
+            self.commands[name] = func
+            return func
+        return decorator
+    
+    
+    
     
     def set_bio(token,bio):
         url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
@@ -449,40 +512,6 @@ class Bot():
           }
         r=requests.post(url,json_payload)
 
-    def get_messages(self,chatid, token):
-        url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
-        json_payload = {
-            "dialogueId": chatid,
-            "laterThan": {
-                "iso": "2023-09-05T05:33:54.792Z",
-                "__type": "Date"
-            },
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
-        r = requests.post(url, json=json_payload)
-        data = r.json()
-        messages_data = data["result"]["messages"]
-        messages = [Message(message_data) for message_data in messages_data]
-        return messages
-
-    def like_message(self,messageid,senderid,token,dialogue):
-        url="https://www.antichat.me/uat/parse/functions/loveMessage"
-        json_payload={
-            "messageId": messageid,
-            "dialogueId": dialogue,
-            "senderId": senderid,
-            "v": 10001,
-            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
-            "_SessionToken": token
-        }
-        r=requests.post(url,json_payload)
-
     def block_user(self,uuid,token):
         url="https://mobile-elb.antich.at/functions/BlockPrivate"
         json_payload={
@@ -499,32 +528,6 @@ class Bot():
         url="https://mobile-elb.antich.at/functions/UnblockPrivate"
         json_payload={
             "blockedId": uuid,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
-        r=requests.post(url,json_payload)
-    
-    def add_mod(self,uuid,dialogue,token):
-        url="https://mobile-elb.antich.at/functions/addMod"
-        json_payload={
-            "modId": uuid,
-            "dialogue": dialogue,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
-        r=requests.post(url,json_payload)
-    
-    def remove_mod(self,uuid,dialogue,token):
-        url="https://mobile-elb.antich.at/functions/removeMod"
-        json_payload={
-            "modId": uuid,
-            "dialogue": dialogue,
             "v": 10001,
             "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
             "_ClientVersion": "js1.11.1",
