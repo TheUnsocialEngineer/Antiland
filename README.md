@@ -60,7 +60,7 @@ def say_hello():
 @bot.command("debug")
 def debug():
     room=bot.get_dialogue("enter dialogue id here",session_token)
-    room.send_message("hello world",session_token,dialogue)
+    room.send_message("BOT IS WORKING",session_token,dialogue)
 
 if __name__ == "__main__":
     bot.start(session_token)
