@@ -175,8 +175,22 @@
             "messageId": "0YhmQ0oElt",
             "version": "web/chat/2.0",
             "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_SessionToken": "r:92fede4c6ad623f4dc2c41bf414fb19b"
-          }
+            "_SessionToken": "r:"
+          },"gettopchats":{
+            "name":"gettopchats",
+            "id":"https://mobile-elb.antich.at/functions/getTopChats",
+            "json_payload":{
+                "laterThen": {
+                  "iso": "2021-01-31T22:55:08.931Z",
+                  "__type": "Date"
+                },
+                "searchText": "",
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": "r:"
+              }
     }
   }
   

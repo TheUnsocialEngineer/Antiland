@@ -8,7 +8,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": ""
       }
   },
   "me": {
@@ -19,7 +19,40 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": "r:"
+      },
+    "gender_payload": 
+    {
+        "female": true,
+        "_method": "PUT",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:"
+      },
+    "bio_payload":{
+        "aboutMe": "abc",
+        "_method": "PUT",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:"
+      },
+    "name_payload":{
+        "profileName": "GroovyTech2",
+        "_method": "PUT",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:92fede4c6ad623f4dc2c41bf414fb19b"
+      },
+    "age_payload":{
+        "age": 19,
+        "_method": "PUT",
+        "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+        "_ClientVersion": "js1.11.1",
+        "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+        "_SessionToken": "r:92fede4c6ad623f4dc2c41bf414fb19b"
       }
   },
   "_user": {
@@ -30,7 +63,7 @@
         "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
         "_ClientVersion": "js1.11.1",
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-        "_SessionToken": "r:1931a89a2d2a5c6e4e098e83b1ba031a"
+        "_SessionToken": "r:"
       }
   },
   "DataPoints": {
