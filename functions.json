@@ -168,7 +168,7 @@
         "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
         "_SessionToken": ""
       }
-    },"FindSimilarPhotos"{
+    },"FindSimilarPhotos":{
         "name": "FindSimilarPhotos",
         "id":"https://mobile-elb.antich.at/functions/v2:chat.message.findSimilarPhotos",
         "json_payload":{
@@ -191,6 +191,7 @@
                 "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
                 "_SessionToken": "r:"
               }
+            }
     }
-  }
+}
   
