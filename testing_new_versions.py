@@ -1,8 +1,8 @@
 import Antiland
 import asyncio
 
-session_token = ""
-dialogue = ""
+session_token = "r:92fede4c6ad623f4dc2c41bf414fb19b"
+dialogue = "m1WusNDqZw"
 prefix = "!"
 
 bot = Antiland.Bot(prefix, dialogue, session_token)
