@@ -4,3 +4,4 @@ __pycache__
 *.whl
 *.gz
 class_test.py
+testing_new_versions.py
