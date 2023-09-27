@@ -11,8 +11,6 @@ setup(
         "threading",
         "num2words",
         "datetime",
-        "inflect",
         "aiohttp",
-        "asyncio"
         ],
 )
