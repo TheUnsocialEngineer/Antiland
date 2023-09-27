@@ -1,14 +1,9 @@
-import requests
 import base64
 import json 
 import base64
-import requests
-import threading
 from num2words import num2words
 from datetime import datetime
-import inflect
 import aiohttp
-import asyncio
 
 class MessageUpdater:
     previous_message_text = None
@@ -215,30 +210,39 @@ class Dialogue:
                 async with session.post(url, json=json_payload) as response:
                     if response.status != 201:
                         print(f"Request for sending message failed with status code {response.status}.")
+                        # You can also include response text for more details:
+                        response_text = await response.text()
+                        print(f"Response text: {response_text}")
+        except aiohttp.ClientError as client_error:
+            print(f"Aiohttp ClientError: {client_error}")
         except Exception as e:
-            print(e)
+            print(f"An unexpected error occurred: {e}")
 
     async def send_video(self, filepath, token, dialogue):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
 
-        with open(filepath, 'rb') as image_file:
-            data = base64.b64encode(image_file.read()).decode("utf-8")
-
-        url = "https://mobile-elb.antich.at/files/upload.mp4"
-        url2 = "https://mobile-elb.antich.at/classes/Messages"
-
-        json_payload = {
-            "base64": data,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "d7559e27-cade-66a2-6ba9-4674e6d97864",
-            "_SessionToken": token
-        }
-
         try:
+            with open(filepath, 'rb') as image_file:
+                data = base64.b64encode(image_file.read()).decode("utf-8")
+
+            url = "https://mobile-elb.antich.at/files/upload.mp4"
+            url2 = "https://mobile-elb.antich.at/classes/Messages"
+
+            json_payload = {
+                "base64": data,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "d7559e27-cade-66a2-6ba9-4674e6d97864",
+                "_SessionToken": token
+            }
+
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as response:
+                    if response.status != 200:
+                        print(f"Request for uploading video failed with status code {response.status}.")
+                        return
+
                     jsoner = await response.json()
 
             url = jsoner["url"]
@@ -260,31 +264,39 @@ class Dialogue:
 
             async with aiohttp.ClientSession() as session:
                 async with session.post(url2, json=json_payload2) as response:
+                    if response.status != 201:
+                        print(f"Request for sending video message failed with status code {response.status}.")
+                        return
+
                     print(await response.text())
         except Exception as e:
-            print(f"error: {e}")
+            print(f"Error: {e}")
 
     async def send_image(self, filepath, token=None, dialogue=None):
         # Convert backslashes to forward slashes in the file path
         filepath = filepath.replace("\\", "/")
 
-        with open(filepath, 'rb') as image_file:
-            data = base64.b64encode(image_file.read()).decode("utf-8")
-
-        url = "https://mobile-elb.antich.at/files/upload.jpg"
-        url2 = "https://mobile-elb.antich.at/classes/Messages"
-
-        json_payload = {
-            "base64": data,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "d7559e27-cade-66a2-6ba9-4674e6d97864",
-            "_SessionToken": token
-        }
-
         try:
+            with open(filepath, 'rb') as image_file:
+                data = base64.b64encode(image_file.read()).decode("utf-8")
+
+            url = "https://mobile-elb.antich.at/files/upload.jpg"
+            url2 = "https://mobile-elb.antich.at/classes/Messages"
+
+            json_payload = {
+                "base64": data,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "d7559e27-cade-66a2-6ba9-4674e6d97864",
+                "_SessionToken": token
+            }
+
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as response:
+                    if response.status != 200:
+                        print(f"Request for uploading image failed with status code {response.status}.")
+                        return
+
                     jsoner = await response.json()
 
             url = jsoner["url"]
@@ -307,9 +319,11 @@ class Dialogue:
 
             async with aiohttp.ClientSession() as session:
                 async with session.post(url2, json=json_payload2) as response:
-                    pass
+                    if response.status != 201:
+                        print(f"Request for sending image message failed with status code {response.status}.")
+                        return
         except Exception as e:
-            print(e)
+            print(f"Error: {e}")
 
     async def get_messages(self, chatid, token):
         url = "https://mobile-elb.antich.at/functions/getMessagesAndRemoves"
@@ -326,12 +340,20 @@ class Dialogue:
             "_SessionToken": token
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as response:
-                data = await response.json()
-                messages_data = data["result"]["messages"]
-                messages = [Message(message_data) for message_data in messages_data]
-                return messages
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as response:
+                    if response.status != 200:
+                        print(f"Request for getting messages failed with status code {response.status}.")
+                        return []
+
+                    data = await response.json()
+                    messages_data = data["result"]["messages"]
+                    messages = [Message(message_data) for message_data in messages_data]
+                    return messages
+        except Exception as e:
+            print(f"Error: {e}")
+            return []
 
     async def add_mod(self, uuid, dialogue, token):
         url = "https://mobile-elb.antich.at/functions/addMod"
@@ -345,9 +367,13 @@ class Dialogue:
             "_SessionToken": token
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as response:
-                pass
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as response:
+                    if response.status != 200:
+                        print(f"Request for adding mod failed with status code {response.status}.")
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def remove_mod(self, uuid, dialogue, token):
         url = "https://mobile-elb.antich.at/functions/removeMod"
@@ -361,9 +387,13 @@ class Dialogue:
             "_SessionToken": token
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as response:
-                pass
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as response:
+                    if response.status != 200:
+                        print(f"Request for removing mod failed with status code {response.status}.")
+        except Exception as e:
+            print(f"Error: {e}")
 
 class Bot:
 
@@ -432,7 +462,6 @@ class Bot:
         return decorator
 
     async def update_profile(self, token, session_token, **kwargs):
-        # Define the base URL and common data for the request
         base_url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
         common_data = {
             "_method": "PUT",
@@ -442,18 +471,19 @@ class Bot:
             "_SessionToken": session_token
         }
 
-        # Create payload based on the provided kwargs
         payload = common_data.copy()
         payload.update(kwargs)
 
-        # Make the PUT request
-        async with aiohttp.ClientSession() as session:
-            async with session.put(base_url, json=payload) as response:
-                if response.status == 200:
-                    print("Profile update successful.")
-                else:
-                    print(f"Profile update failed with status code {response.status}.")
-                    print(await response.text())
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.put(base_url, json=payload) as response:
+                    if response.status == 200:
+                        print("Profile update successful.")
+                    else:
+                        print(f"Profile update failed with status code {response.status}.")
+                        print(await response.text())
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def stats(self, session_token):
         url = "https://mobile-elb.antich.at/users/me"
@@ -465,14 +495,17 @@ class Bot:
             "_SessionToken": session_token
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_data) as response:
-                if response.status == 200:
-                    user_data = await response.json()
-                    account = Account(user_data)
-                    return account
-                else:
-                    return None
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_data) as response:
+                    if response.status == 200:
+                        user_data = await response.json()
+                        account = Account(user_data)
+                        return account
+                    else:
+                        return None
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def translate(self, token, message, message_id):
         url = "https://mobile-elb.antich.at/functions/translateMessage"
@@ -487,11 +520,15 @@ class Bot:
             "_InstallationId": "76b2aae2-0087-83e5-b86a-1a6d8ab69618",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_data) as translate:
-                translated = await translate.json()
-                result = translated.get("result")
-                return result
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_data) as translate:
+                    translated = await translate.json()
+                    result = translated.get("result")
+                    return result
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def get_contacts(self, token):
         url = "https://mobile-elb.antich.at/functions/getContacts"
@@ -502,11 +539,15 @@ class Bot:
             "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                data = await r.json()
-                users = [User(user_data) for user_data in data["result"]]
-                return users
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+                    users = [User(user_data) for user_data in data["result"]]
+                    return users
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def add_contact(self, uuid, token):
         url = "https://www.antichat.me/uat/parse/functions/addContact"
@@ -518,9 +559,13 @@ class Bot:
             "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                pass
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    pass
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def delete_contact(self, uuid, token):
         url = "https://mobile-elb.antich.at/functions/deleteContact"
@@ -532,9 +577,13 @@ class Bot:
             "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                pass
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    pass
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def block_user(self, uuid, token):
         url = "https://mobile-elb.antich.at/functions/BlockPrivate"
@@ -546,9 +595,13 @@ class Bot:
             "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                pass
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    pass
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def unblock_user(self, uuid, token):
         url = "https://mobile-elb.antich.at/functions/UnblockPrivate"
@@ -560,9 +613,13 @@ class Bot:
             "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                pass
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    pass
+        except Exception as e:
+            print(f"Error: {e}")
 
     async def get_dialogue(self, dialogue, token):
         url = "https://mobile-elb.antich.at/functions/getDialogue"
@@ -574,56 +631,72 @@ class Bot:
             "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
             "_SessionToken": token
         }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                data = await r.json()
-                dialogue = Dialogue(data["result"])
-                return dialogue
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+                    dialogue = Dialogue(data["result"])
+                    return dialogue
+        except Exception as e:
+            print(f"Error: {e}")
     
-    async def get_topchats(self,token):
-        url="https://mobile-elb.antich.at/functions/getTopChats"
-        json_payload={
-                "laterThen": {
-                  "iso": "2021-01-31T22:55:08.931Z",
-                  "__type": "Date"
-                },
-                "searchText": "",
-                "v": 10001,
-                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-                "_ClientVersion": "js1.11.1",
-                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-                "_SessionToken": "r:"
-              }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                data = await r.json()
-                dialogue = [Dialogue(dialogue) for dialogue in data["result"]]
-                return dialogue
-    
-    async def join_chat(self,token,dialogue):
-        url="https://mobile-elb.antich.at/functions/joinGroupChat"
-        json_payload={
-                "chat": dialogue,
-                "v": 10001,
-                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-                "_ClientVersion": "js1.11.1",
-                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-                "_SessionToken": token
-              }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                data = await r.json()
-    
-    async def join_chat(self,token,dialogue):
-        url="https://mobile-elb.antich.at/functions/exitGroupChat"
-        json_payload={
-                "chat": dialogue,
-                "v": 10001,
-                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-                "_ClientVersion": "js1.11.1",
-                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-                "_SessionToken": token
-              }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as r:
-                data = await r.json()
+    async def get_topchats(self, token):
+        url = "https://mobile-elb.antich.at/functions/getTopChats"
+        json_payload = {
+            "laterThen": {
+              "iso": "2021-01-31T22:55:08.931Z",
+              "__type": "Date"
+            },
+            "searchText": "",
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+                    dialogues = [Dialogue(dialogue) for dialogue in data["result"]]
+                    return dialogues
+        except Exception as e:
+            print(f"Error: {e}")
+
+    async def join_chat(self, token, dialogue):
+        url = "https://mobile-elb.antich.at/functions/joinGroupChat"
+        json_payload = {
+            "chat": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+        except Exception as e:
+            print(f"Error: {e}")
+
+    async def exit_chat(self, token, dialogue):
+        url = "https://mobile-elb.antich.at/functions/exitGroupChat"
+        json_payload = {
+            "chat": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": token
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+        except Exception as e:
+            print(f"Error: {e}")
