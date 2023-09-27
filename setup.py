@@ -6,15 +6,13 @@ setup(
     packages=find_packages(),
     install_requires=[
         "requests",
-        "base64",
-        "requests",
         "json",
-        "requests",
         "base64",
-        "requests",
         "threading",
         "num2words",
         "datetime",
-        "inflect"
+        "inflect",
+        "aiohttp",
+        "asyncio"
         ],
 )
