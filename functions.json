@@ -176,7 +176,8 @@
             "version": "web/chat/2.0",
             "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
             "_SessionToken": "r:"
-          },"gettopchats":{
+          },
+        "gettopchats":{
             "name":"gettopchats",
             "id":"https://mobile-elb.antich.at/functions/getTopChats",
             "json_payload":{
@@ -191,7 +192,31 @@
                 "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
                 "_SessionToken": "r:"
               }
-            }
+            },
+        "joingroupchat":{
+            "name":"joingroupchat",
+            "id":"https://mobile-elb.antich.at/functions/joinGroupChat",
+            "json_payload":{
+                "chat": "qP3AoXdAf4",
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": "r:92fede4c6ad623f4dc2c41bf414fb19b"
+              }
+        },
+        "exitgroupchat":{
+            "name":"exitgroupchat",
+            "id":"https://mobile-elb.antich.at/functions/exitGroupChat",
+            "json_payload":{
+                "chat": "qP3AoXdAf4",
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": "r:92fede4c6ad623f4dc2c41bf414fb19b"
+              }
+        }
     }
 }
   
