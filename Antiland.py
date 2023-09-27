@@ -579,3 +579,24 @@ class Bot:
                 data = await r.json()
                 dialogue = Dialogue(data["result"])
                 return dialogue
+    
+    async def get_topchats(self,token):
+        url="https://mobile-elb.antich.at/functions/getTopChats"
+        json_payload={
+                "laterThen": {
+                  "iso": "2021-01-31T22:55:08.931Z",
+                  "__type": "Date"
+                },
+                "searchText": "",
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": "r:"
+              }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=json_payload) as r:
+                data = await r.json()
+                dialogue = [Dialogue(dialogue) for dialogue in data["result"]]
+                return dialogue
+        
