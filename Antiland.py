@@ -599,4 +599,31 @@ class Bot:
                 data = await r.json()
                 dialogue = [Dialogue(dialogue) for dialogue in data["result"]]
                 return dialogue
-        
+    
+    async def join_chat(self,token,dialogue):
+        url="https://mobile-elb.antich.at/functions/joinGroupChat"
+        json_payload={
+                "chat": dialogue,
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": token
+              }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=json_payload) as r:
+                data = await r.json()
+    
+    async def join_chat(self,token,dialogue):
+        url="https://mobile-elb.antich.at/functions/exitGroupChat"
+        json_payload={
+                "chat": dialogue,
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": token
+              }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=json_payload) as r:
+                data = await r.json()
