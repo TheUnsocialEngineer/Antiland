@@ -5,7 +5,6 @@ setup(
     version="0.85",
     packages=find_packages(),
     install_requires=[
-        "requests",
         "json",
         "base64",
         "threading",
