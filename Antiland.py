@@ -8,12 +8,13 @@ import aiohttp
 class MessageUpdater:
     previous_message_text = None
 
-    def __init__(self, url, username, callback):
+    def __init__(self, url, username, callback,selfbot):
         self.url = url
         self.username = username
         self.callback = callback
         self.running = False
         self.session = None
+        self.selfbot=selfbot
 
     async def fetch_messages(self):
         async with self.session.get(self.url) as response:
@@ -30,8 +31,9 @@ class MessageUpdater:
                     print(f"Received unexpected content type: {content_type}")
             return None
 
-    async def run(self):
+    async def run(self,selfbot):
         self.running = True
+        self.selfbot=selfbot
         previous_message_text = None
         async with aiohttp.ClientSession() as session:
             self.session = session
@@ -40,10 +42,15 @@ class MessageUpdater:
                 if json_response:
                     message_text = self.extract_message_text(json_response)
                     message_sender = self.extract_message_sender(json_response)
-                    message_content = f"{message_sender}: {message_text}"
-                    if message_text and message_text != previous_message_text and message_sender == self.username:
-                        previous_message_text = message_text
-                        await self.callback(message_text, message_sender)
+                    # Check the selfbot flag directly
+                    if not self.selfbot:  # Respond to all messages
+                        if message_text and message_text != previous_message_text:
+                            previous_message_text = message_text
+                            await self.callback(message_text, message_sender)
+                    elif self.selfbot:  # Respond only to messages from the logged-in user
+                        if message_text and message_text != previous_message_text and message_sender == self.username:
+                            previous_message_text = message_text
+                            await self.callback(message_text, message_sender)
 
 
     def extract_message_text(self, json_response):
@@ -149,8 +156,6 @@ class User:
     def created_date(self, date_str):
         return self.format_date(date_str)
 
-    def __str__(self):
-        return f"Username: {self.username}\nTotal Bans: {self.total_bans}\nRating: {self.rating}\nMessage Count: {self.msg_count}\nPrivate Chat Count: {self.pvtc_count}"
 
 class Message:
     def __init__(self, data):
@@ -274,7 +279,10 @@ class Dialogue:
 
     async def send_image(self, filepath, token=None, dialogue=None):
         # Convert backslashes to forward slashes in the file path
-        filepath = filepath.replace("\\", "/")
+        try:
+            filepath = filepath.replace("\\", "/")
+        except:
+            pass
 
         try:
             with open(filepath, 'rb') as image_file:
@@ -293,9 +301,8 @@ class Dialogue:
 
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as response:
-                    if response.status != 200:
+                    if response.status != 201:
                         print(f"Request for uploading image failed with status code {response.status}.")
-                        return
 
                     jsoner = await response.json()
 
@@ -424,12 +431,12 @@ class Bot:
                     else:
                         await self.commands[command]()
 
-    async def start(self, token):
+    async def start(self, token, selfbot=False):
         if token:
             login = await self.login(token)
             main_username = login[2]
-            self.message_updater = MessageUpdater(self.url, main_username, self.process_message)
-            await self.message_updater.start()
+            self.message_updater = MessageUpdater(self.url, main_username, self.process_message, selfbot)
+            await self.message_updater.run(selfbot)
 
     async def login(self, token):
         url = "https://mobile-elb.antich.at/users/me"
