@@ -15,7 +15,7 @@ async def handle_response(response, expected_status_code):
         print(f"Request failed with status code {response.status}: {error_message}")
         # You can raise an exception here or handle the error as needed.
     else:
-        return await response.json()  # Assuming the response is JSON
+        pass  # Assuming the response is JSON
 
 class MessageUpdater:
     previous_message_text = None
@@ -141,10 +141,8 @@ class User:
         self.anti_karma = data.get("antiKarma")
         self.blocked_by = data.get("blockedBy")
         self.blessed = data.get("blessed")
-        vip_exp_date = data.get("vipExpDate")
-        self.vip_exp_date = vip_exp_date["iso"] if vip_exp_date else None
-        prison_exp_date=data.get("inPrisonTill")
-        self.prison_release=data.get("inPrisonTill") if prison_exp_date else None
+        self.vip_exp_date = data.get("vipExpDate")
+        self.prison_exp_date=data.get("inPrisonTill")
         self.is_admin = data.get("isAdmin")
         self.is_vip = data.get("isVIP")
         self.accessories = data.get("accessories")
@@ -154,16 +152,49 @@ class User:
         self.about_me = data.get("aboutMe") 
         self.object_id = data.get("objectId")
 
-    def format_date(self, date_str):
-        date_obj = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
-        day = num2words(date_obj.day, to='ordinal')
-        month = date_obj.strftime('%B')
-        year = date_obj.year
-        return f"{day}/{month}/{year}"
+    @property
+    def created_at_time(self):
+         return self.created_at.split("T")[1].split(".")[0]
 
-    def created_date(self, date_str):
-        return self.format_date(date_str)
+    @property
+    def created_at_date(self):
+         return self.created_at.split("T")[0]
 
+    @property
+    def vip_exp_time(self):
+        if self.vip_exp_date and 'iso' in self.vip_exp_date:
+            iso_date_str = self.vip_exp_date['iso']
+            vip_datetime = datetime.fromisoformat(iso_date_str)
+            return vip_datetime.strftime("%H:%M:%S")
+        else:
+            return None
+
+    @property
+    def vip_exp_date_date(self):
+        if self.vip_exp_date and 'iso' in self.vip_exp_date:
+            iso_date_str = self.vip_exp_date['iso']
+            vip_datetime = datetime.fromisoformat(iso_date_str)
+            return vip_datetime.strftime("%d:%m:%y")
+        else:
+            return None
+
+    @property
+    def prison_exp_date_date(self):
+        if self.prison_exp_date and 'iso' in self.prison_exp_date:
+            iso_date_str = self.prison_exp_date['iso']
+            prison_datetime = datetime.fromisoformat(iso_date_str)
+            return prison_datetime.strftime('%d/%m/%Y')
+        else:
+            return None
+
+    @property
+    def prison_exp_time(self):
+        if self.prison_exp_date and 'iso' in self.prison_exp_date:
+            iso_date_str = self.prison_exp_date['iso']
+            prison_datetime = datetime.fromisoformat(iso_date_str)
+            return prison_datetime.strftime('%H:%M:%S')
+        else:
+            return None
 
 class Message:
     def __init__(self, data):
@@ -574,7 +605,6 @@ class Bot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as r:
-                    print(await r.text())
                     pass
         except Exception as e:
             print(f"Error: {e}")
