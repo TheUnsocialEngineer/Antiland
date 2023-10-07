@@ -5,6 +5,18 @@ from num2words import num2words
 from datetime import datetime
 import aiohttp
 
+async def handle_response(response, expected_status_code):
+    error_message = await response.text()
+    if "My rude words were blocked." in error_message:
+        print("Message Blocked For Innapropriate Language")
+    if "Message blocked." in error_message:
+        print("Message Blocked For Personal Data")
+    if response.status != expected_status_code:
+        print(f"Request failed with status code {response.status}: {error_message}")
+        # You can raise an exception here or handle the error as needed.
+    else:
+        return await response.json()  # Assuming the response is JSON
+
 class MessageUpdater:
     previous_message_text = None
 
@@ -128,22 +140,18 @@ class User:
         self.rating = data.get("rating")
         self.anti_karma = data.get("antiKarma")
         self.blocked_by = data.get("blockedBy")
-        
-        # Fields with .get()
         self.blessed = data.get("blessed")
         vip_exp_date = data.get("vipExpDate")
         self.vip_exp_date = vip_exp_date["iso"] if vip_exp_date else None
-        
+        prison_exp_date=data.get("inPrisonTill")
+        self.prison_release=data.get("inPrisonTill") if prison_exp_date else None
         self.is_admin = data.get("isAdmin")
         self.is_vip = data.get("isVIP")
         self.accessories = data.get("accessories")
         self.premium_avatar = data.get("premiumAvatar")
-        
-        # Fields with .get()
         self.min_karma = data.get("minKarma")
         self.show_online = data.get("showOnline")
-        self.about_me = data.get("aboutMe")
-        
+        self.about_me = data.get("aboutMe") 
         self.object_id = data.get("objectId")
 
     def format_date(self, date_str):
@@ -194,8 +202,7 @@ class Dialogue:
 
         async with aiohttp.ClientSession() as session:
             async with session.post(url, json=json_payload) as response:
-                if response.status != 200:
-                    print(f"Request for liking message failed with status code {response.status}.")
+                return await handle_response(response, expected_status_code=200)
 
     async def send_message(self, message, token=None, dialogue=None):
         url = "https://mobile-elb.antich.at/classes/Messages"
@@ -213,11 +220,7 @@ class Dialogue:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as response:
-                    if response.status != 201:
-                        print(f"Request for sending message failed with status code {response.status}.")
-                        # You can also include response text for more details:
-                        response_text = await response.text()
-                        print(f"Response text: {response_text}")
+                     return await handle_response(response, expected_status_code=201)
         except aiohttp.ClientError as client_error:
             print(f"Aiohttp ClientError: {client_error}")
         except Exception as e:
@@ -377,6 +380,7 @@ class Dialogue:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as response:
+                    print(await response.text())
                     if response.status != 200:
                         print(f"Request for adding mod failed with status code {response.status}.")
         except Exception as e:
@@ -468,7 +472,7 @@ class Bot:
 
         return decorator
 
-    async def update_profile(self, token, session_token, **kwargs):
+    async def update_profile(self, session_token, **kwargs):
         base_url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
         common_data = {
             "_method": "PUT",
@@ -570,6 +574,7 @@ class Bot:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as r:
+                    print(await r.text())
                     pass
         except Exception as e:
             print(f"Error: {e}")
