@@ -17,5 +17,5 @@ Is this your first time using the library? This is the place to get started!
 API Reference
 ------------
 
-- **API Reference:** :ref:`api`
+- **API Reference:** :doc:`api`
 
