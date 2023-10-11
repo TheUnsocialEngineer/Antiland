@@ -1,4 +1,4 @@
-API docerence
+API Documentation
 =============
 
 This section provides documentation for various classes in the Antiland package.
@@ -6,12 +6,12 @@ This section provides documentation for various classes in the Antiland package.
 Account Class
 -------------
 
-:doc:`account`
+:doc:`api/account`
 
 Bot Class
 ---------
 
-:doc:`bot`
+:doc:`api/bot`
 
 Dialogue Class
 --------------
