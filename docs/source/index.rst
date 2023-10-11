@@ -1,24 +1,68 @@
-.. Antiland documentation master file, created by
-   sphinx-quickstart on Wed Oct 11 10:41:30 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+===============
+Antiland
+===============
 
-Welcome to Antiland's documentation!
+.. image:: your_logo.png
+   :align: center
 
-Antiland.py is a modern, easy to use, feature-rich, and async ready API wrapper for The chat application Antiland.
+Overview
+========
+
+Antiland.py is a modern, easy to use, feature-rich, and async ready API wrapper for The social media site Antiland.com.
 
 Features:
--Modern Pythonic API using async/await syntax
--Easy to register bot commands
--access to chats, messages and accounts
--selfbot flag to allow public or private bots
-====================================
+
+Modern Pythonic API using async/await syntax
+
+Easy to use command system for creating bot commands
+
+access to users, chat rooms and messages
+
+Installation
+============
+
+.. code-block:: shell
+
+   pip install antiland
+
+Usage
+=====
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Table of Contents
 
+   module1
+   module2
+   ...
 
+Module 1
+--------
+
+.. automodule:: your_package_name.module1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module 2
+--------
+
+.. automodule:: your_package_name.module2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+...
+
+Contributing
+============
+
+If you'd like to contribute to this project, please follow our guidelines in the `CONTRIBUTING.md` file.
+
+License
+=======
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 Indices and tables
 ==================
