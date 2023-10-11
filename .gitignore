@@ -6,3 +6,5 @@ __pycache__
 class_test.py
 new_version.py
 Makefile
+build
+source
