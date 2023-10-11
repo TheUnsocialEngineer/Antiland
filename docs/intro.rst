@@ -7,8 +7,8 @@
 Introduction
 ==============
 
-This is the documentation for antiland.py, a python library that allows users to create bots On
-and interactive with the Antiland.com platform
+This is the documentation for antiland.py, a python library that allows users to create bots on
+and interact with the Antiland.com platform
 
 Prerequisites
 ---------------
