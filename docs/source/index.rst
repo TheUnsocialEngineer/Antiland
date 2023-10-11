@@ -39,7 +39,7 @@ Usage
 Module 1
 --------
 
-.. automodule:: your_package_name.module1
+.. automodule::Antiland.bot
    :members:
    :undoc-members:
    :show-inheritance:
