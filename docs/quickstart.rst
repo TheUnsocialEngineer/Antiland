@@ -10,10 +10,10 @@ Quickstart
 This page gives a brief introduction to the library. It assumes you have the library installed,
 if you don't check the :ref:`installing` portion.
 
-A Minimal Bot
+A Basic Antiland Bot
 ---------------
 
-Let's make a bot that responds to a specific message and walk you through it.
+Let's make a simple bot with 2 registered commands that send messages into the chat.
 
 It looks something like this:
 
