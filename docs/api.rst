@@ -8,9 +8,7 @@ Account Class
 
 :doc:`account`
 
-Bot Class
----------
-.. automodule:: antiland.bot
+.. autoclass:: antiland.Bot
    :members:
    :undoc-members:
    :show-inheritance:
