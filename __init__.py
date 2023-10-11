@@ -1,1 +1,1 @@
-from .Antiland import Bot
+from Antiland.bot import Bot
