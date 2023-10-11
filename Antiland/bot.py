@@ -4,6 +4,16 @@ from Antiland.dialogue import Dialogue
 from Antiland.account import Account
 from Antiland.user import User
 class Bot:
+    """
+    This is a brief description of what the function does.
+
+    :param arg1: Description of arg1
+    :type arg1: Type of arg1
+    :param arg2: Description of arg2
+    :type arg2: Type of arg2
+    :return: Description of the return value
+    :rtype: Type of the return value
+    """
     def __init__(self, prefix, dialogue, session_token=None):
         self.prefix = prefix
         self.running = False
