@@ -1,5 +1,5 @@
 Antiland Package Documentation
-=============================
+==============================
 
 .. image:: antiland_logo.png
    :align: center
@@ -15,7 +15,11 @@ Is this your first time using the library? This is the place to get started!
 - **Examples:** Examples are Located in the examples directory
 
 API Reference
-------------
+--------------
+.. toctree::
+   :maxdepth: 1
+   
+   api
 
 - **API Reference:** :doc:`api`
 

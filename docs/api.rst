@@ -1,5 +1,5 @@
 API Documentation
-=============
+====================
 
 This section provides documentation for various classes in the Antiland package.
 
@@ -10,22 +10,7 @@ Account Class
 
 Bot Class
 ---------
-.. autoclass:: antiland.bot.Bot
+.. automodule:: antiland.bot
    :members:
    :undoc-members:
    :show-inheritance:
-
-Dialogue Class
---------------
-
-:doc:`dialogue`
-
-User Class
-----------
-
-:doc:`user`
-
-Message Class
-------------
-
-:doc:`message`
