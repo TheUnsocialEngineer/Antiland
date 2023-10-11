@@ -12,11 +12,11 @@ Antiland.py is a modern, easy to use, feature-rich, and async ready API wrapper 
 
 Features:
 
--Modern Pythonic API using async/await syntax
+Modern Pythonic API using async/await syntax
 
--Easy to use command system for creating bot commands
+Easy to use command system for creating bot commands
 
--access to users, chat rooms and messages
+access to users, chat rooms and messages
 
 Installation
 ============
