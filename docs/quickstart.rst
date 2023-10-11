@@ -43,20 +43,21 @@ It looks something like this:
     if __name__ == "__main__":
         asyncio.run(main())
 
-Let's name this file ``example_bot.py``. Make sure not to name it ``antiland.py`` as that'll conflict
+Let's name this file ``antiland_bot_example.py``. Make sure not to name it ``antiland.py`` as that'll conflict
 with the library.
 
-There's a lot going on here, so let's walk you through it step by step.
+If this is your first time using the library this can be quite overwhelming so lets go
+step below.
 
 1. The first line just imports the library, if this raises a :exc:`ModuleNotFoundError` or :exc:`ImportError`
    then head on over to :ref:`installing` section to make sure the library has been installed correctly
-2. We then use the :meth:`Bot.command` decorator to register a command, the bot.
+2. We then use the :meth:`Bot.command` decorator to register a command.
 3. Finally, we run the bot with our session token. If you need help getting your token or accessing dialogue IDs,
    look in the :ref:`antiland-intro` section.
 
 
-Now that we've made a bot, we have to *run* the bot. Luckily, this is simple since this is just a
-Python script, we can run it directly.
+Now that we've made a bot, we have to *run* the bot. Since we are using python we can run the bot 
+using one of the commands below.
 
 On Windows:
 
