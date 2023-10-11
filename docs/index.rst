@@ -1,72 +1,30 @@
-===============
-Antiland
-===============
+Antiland Package Documentation
+=============================
 
-.. image:: your_logo.png
+.. image:: antiland_logo.png
    :align: center
 
-Overview
-========
+Welcome to the documentation for the Antiland Python package. This package provides functionality for working with accounts, bots, dialogues, users, and messages on the Antiland platform.
 
-Antiland.py is a modern, easy to use, feature-rich, and async ready API wrapper for The social media site Antiland.com.
-
-Features:
-
-Modern Pythonic API using async/await syntax
-
-Easy to use command system for creating bot commands
-
-access to users, chat rooms and messages
-
-Installation
-============
-
-.. code-block:: shell
-
-   pip install antiland
-
-Usage
-=====
+Quickstart
+==========
 
 .. toctree::
    :maxdepth: 2
-   :caption: Table of Contents
+   :caption: Quickstart Guide
 
-   module1
-   module2
-   ...
+   introduction
+   quickstart
 
-Module 1
---------
+API Reference
+=============
 
-.. automodule:: your_package_name.module1
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
 
-Module 2
---------
-
-.. automodule:: your_package_name.module2
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-...
-
-Contributing
-============
-
-If you'd like to contribute to this project, please follow our guidelines in the `CONTRIBUTING.md` file.
-
-License
-=======
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   account
+   bot
+   dialogue
+   user
+   message

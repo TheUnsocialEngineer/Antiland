@@ -38,7 +38,7 @@ Usage
 
 Module 1
 --------
-
+..py:
 .. automodule::Antiland.bot
    :members:
    :undoc-members:
