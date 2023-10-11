@@ -1,0 +1,73 @@
+:orphan:
+
+.. _quickstart:
+
+.. currentmodule:: Antiland
+
+Quickstart
+============
+
+This page gives a brief introduction to the library. It assumes you have the library installed,
+if you don't check the :ref:`installing` portion.
+
+A Minimal Bot
+---------------
+
+Let's make a bot that responds to a specific message and walk you through it.
+
+It looks something like this:
+
+.. code-block:: python3
+    import Antiland
+    import asyncio
+
+    session_token = "" # insert session token here
+    dialogue = ""   #enter chatid here
+    prefix = "!" # prefix can be anything you want
+
+    bot = Antiland.Bot(prefix, dialogue, session_token)
+
+    @bot.command("hello")
+    async def say_hello():
+        room = await bot.get_dialogue(dialogue, session_token)
+        await room.send_message("hello world", session_token, dialogue)
+
+    @bot.command("debug")
+    async def debug():
+        room =await bot.get_dialogue("enter dialogue id here", session_token)
+        await room.send_message("BOT IS WORKING", session_token, dialogue)
+
+    async def main():
+        await bot.start(session_token)
+
+    if __name__ == "__main__":
+        asyncio.run(main())
+
+Let's name this file ``example_bot.py``. Make sure not to name it ``antiland.py`` as that'll conflict
+with the library.
+
+There's a lot going on here, so let's walk you through it step by step.
+
+1. The first line just imports the library, if this raises a :exc:`ModuleNotFoundError` or :exc:`ImportError`
+   then head on over to :ref:`installing` section to make sure the library has been installed correctly
+2. We then use the :meth:`Bot.command` decorator to register a command, the bot.
+3. Finally, we run the bot with our session token. If you need help getting your token or accessing dialogue IDs,
+   look in the :ref:`antiland-intro` section.
+
+
+Now that we've made a bot, we have to *run* the bot. Luckily, this is simple since this is just a
+Python script, we can run it directly.
+
+On Windows:
+
+.. code-block:: shell
+
+    $ py -3 example_bot.py
+
+On other systems:
+
+.. code-block:: shell
+
+    $ python3 example_bot.py
+
+Now you can try playing around with your basic bot.
