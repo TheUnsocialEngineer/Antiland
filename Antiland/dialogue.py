@@ -1,7 +1,7 @@
 import aiohttp
 import base64
-from core.message import Message
-from core.message_updater import handle_response
+from Antiland.message import Message
+from Antiland.message_updater import handle_response
 
 class Dialogue:
     def __init__(self, data):

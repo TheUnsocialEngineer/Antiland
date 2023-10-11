@@ -1,8 +1,8 @@
 import aiohttp
-from core.message_updater import MessageUpdater
-from core.dialogue import Dialogue
-from core.account import Account
-from core.user import User
+from Antiland.message_updater import MessageUpdater
+from Antiland.dialogue import Dialogue
+from Antiland.account import Account
+from Antiland.user import User
 class Bot:
     def __init__(self, prefix, dialogue, session_token=None):
         self.prefix = prefix
