@@ -5,7 +5,7 @@ This section provides documentation for various classes in the Antiland package.
 
 Bot Class
 ---------
-.. automodule:: Antiland.Bot
+.. autoclass:: Antiland.bot.Bot
    :members:
    :undoc-members:
    :show-inheritance:
