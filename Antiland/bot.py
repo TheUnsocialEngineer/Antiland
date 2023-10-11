@@ -5,14 +5,41 @@ from Antiland.account import Account
 from Antiland.user import User
 class Bot:
     """
-    This is a brief description of what the function does.
+    The `Bot` class represents a bot in the Antiland platform.
 
-    :param arg1: Description of arg1
-    :type arg1: Type of arg1
-    :param arg2: Description of arg2
-    :type arg2: Type of arg2
-    :return: Description of the return value
-    :rtype: Type of the return value
+    Args:
+        prefix (str): The command prefix to trigger bot commands.
+        dialogue (str): The ID of the dialogue associated with the bot.
+        session_token (str, optional): The session token for authentication. Defaults to None.
+
+    Attributes:
+        prefix (str): The command prefix to trigger bot commands.
+        running (bool): A flag to indicate if the bot is running.
+        token (str): The authentication token.
+        session_token (str): The session token for authentication.
+        message_updater (MessageUpdater): An instance of the MessageUpdater class.
+        commands (dict): A dictionary to store bot commands.
+        dialogue (str): The ID of the dialogue associated with the bot.
+        chats (dict): A dictionary to store chat-related data.
+        url (str): The URL for subscribing to chat updates.
+
+    Methods:
+        process_message(message, token): Process incoming messages and execute commands.
+        start(token, selfbot=False): Start the bot, log in, and initiate message updates.
+        login(token): Log in to the Antiland platform.
+        command(name): Decorator to define bot commands.
+        update_profile(session_token, **kwargs): Update the bot's profile.
+        stats(session_token): Get account statistics.
+        translate(token, message, message_id): Translate a message.
+        get_contacts(token): Get the bot's contacts.
+        add_contact(uuid, token): Add a contact to the bot's list.
+        delete_contact(uuid, token): Delete a contact from the bot's list.
+        block_user(uuid, token): Block a user.
+        unblock_user(uuid, token): Unblock a user.
+        get_dialogue(dialogue, token): Get information about a specific dialogue.
+        get_topchats(token): Get the top chat dialogues.
+        join_chat(token, dialogue): Join a chat dialogue.
+        exit_chat(token, dialogue): Exit a chat dialogue.
     """
     def __init__(self, prefix, dialogue, session_token=None):
         self.prefix = prefix
