@@ -10,7 +10,7 @@ Account Class
 
 Bot Class
 ---------
-.. automodule:: antiland.Bot
+.. autoclass:: antiland.bot.Bot
    :members:
    :undoc-members:
    :show-inheritance:
