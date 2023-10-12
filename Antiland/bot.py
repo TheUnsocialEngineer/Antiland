@@ -4,43 +4,113 @@ from Antiland.dialogue import Dialogue
 from Antiland.account import Account
 from Antiland.user import User
 class Bot:
+    r"""Represents a client connection that connects to Discord.
+    This class is used to interact with the Discord WebSocket and API.
+
+    .. container:: operations
+
+        .. describe:: async with x
+
+            Asynchronously initialises the client and automatically cleans up.
+
+            .. versionadded:: 2.0
+
+    A number of options can be passed to the :class:`Client`.
+
+    Parameters
+    -----------
+    max_messages: Optional[:class:`int`]
+        The maximum number of messages to store in the internal message cache.
+        This defaults to ``1000``. Passing in ``None`` disables the message cache.
+
+        .. versionchanged:: 1.3
+            Allow disabling the message cache and change the default size to ``1000``.
+    proxy: Optional[:class:`str`]
+        Proxy URL.
+    proxy_auth: Optional[:class:`aiohttp.BasicAuth`]
+        An object that represents proxy HTTP Basic Authorization.
+    shard_id: Optional[:class:`int`]
+        Integer starting at ``0`` and less than :attr:`.shard_count`.
+    shard_count: Optional[:class:`int`]
+        The total number of shards.
+    application_id: :class:`int`
+        The client's application ID.
+    intents: :class:`Intents`
+        The intents that you want to enable for the session. This is a way of
+        disabling and enabling certain gateway events from triggering and being sent.
+
+        .. versionadded:: 1.5
+
+        .. versionchanged:: 2.0
+            Parameter is now required.
+    member_cache_flags: :class:`MemberCacheFlags`
+        Allows for finer control over how the library caches members.
+        If not given, defaults to cache as much as possible with the
+        currently selected intents.
+
+        .. versionadded:: 1.5
+    chunk_guilds_at_startup: :class:`bool`
+        Indicates if :func:`.on_ready` should be delayed to chunk all guilds
+        at start-up if necessary. This operation is incredibly slow for large
+        amounts of guilds. The default is ``True`` if :attr:`Intents.members`
+        is ``True``.
+
+        .. versionadded:: 1.5
+    status: Optional[:class:`.Status`]
+        A status to start your presence with upon logging on to Discord.
+    activity: Optional[:class:`.BaseActivity`]
+        An activity to start your presence with upon logging on to Discord.
+    allowed_mentions: Optional[:class:`AllowedMentions`]
+        Control how the client handles mentions by default on every message sent.
+
+        .. versionadded:: 1.4
+    heartbeat_timeout: :class:`float`
+        The maximum numbers of seconds before timing out and restarting the
+        WebSocket in the case of not receiving a HEARTBEAT_ACK. Useful if
+        processing the initial packets take too long to the point of disconnecting
+        you. The default timeout is 60 seconds.
+    guild_ready_timeout: :class:`float`
+        The maximum number of seconds to wait for the GUILD_CREATE stream to end before
+        preparing the member cache and firing READY. The default timeout is 2 seconds.
+
+        .. versionadded:: 1.4
+    assume_unsync_clock: :class:`bool`
+        Whether to assume the system clock is unsynced. This applies to the ratelimit handling
+        code. If this is set to ``True``, the default, then the library uses the time to reset
+        a rate limit bucket given by Discord. If this is ``False`` then your system clock is
+        used to calculate how long to sleep for. If this is set to ``False`` it is recommended to
+        sync your system clock to Google's NTP server.
+
+        .. versionadded:: 1.3
+    enable_debug_events: :class:`bool`
+        Whether to enable events that are useful only for debugging gateway related information.
+
+        Right now this involves :func:`on_socket_raw_receive` and :func:`on_socket_raw_send`. If
+        this is ``False`` then those events will not be dispatched (due to performance considerations).
+        To enable these events, this must be set to ``True``. Defaults to ``False``.
+
+        .. versionadded:: 2.0
+    http_trace: :class:`aiohttp.TraceConfig`
+        The trace configuration to use for tracking HTTP requests the library does using ``aiohttp``.
+        This allows you to check requests the library is using. For more information, check the
+        `aiohttp documentation <https://docs.aiohttp.org/en/stable/client_advanced.html#client-tracing>`_.
+
+        .. versionadded:: 2.0
+    max_ratelimit_timeout: Optional[:class:`float`]
+        The maximum number of seconds to wait when a non-global rate limit is encountered.
+        If a request requires sleeping for more than the seconds passed in, then
+        :exc:`~discord.RateLimited` will be raised. By default, there is no timeout limit.
+        In order to prevent misuse and unnecessary bans, the minimum value this can be
+        set to is ``30.0`` seconds.
+
+        .. versionadded:: 2.0
+
+    Attributes
+    -----------
+    ws
+        The websocket gateway the client is currently connected to. Could be ``None``.
     """
-    The `Bot` class represents a bot in the Antiland platform.
 
-    Args:
-        prefix (str): The command prefix to trigger bot commands.
-        dialogue (str): The ID of the dialogue associated with the bot.
-        session_token (str, optional): The session token for authentication. Defaults to None.
-
-    Attributes:
-        prefix (str): The command prefix to trigger bot commands.
-        running (bool): A flag to indicate if the bot is running.
-        token (str): The authentication token.
-        session_token (str): The session token for authentication.
-        message_updater (MessageUpdater): An instance of the MessageUpdater class.
-        commands (dict): A dictionary to store bot commands.
-        dialogue (str): The ID of the dialogue associated with the bot.
-        chats (dict): A dictionary to store chat-related data.
-        url (str): The URL for subscribing to chat updates.
-
-    Methods:
-        process_message(message, token): Process incoming messages and execute commands.
-        start(token, selfbot=False): Start the bot, log in, and initiate message updates.
-        login(token): Log in to the Antiland platform.
-        command(name): Decorator to define bot commands.
-        update_profile(session_token, **kwargs): Update the bot's profile.
-        stats(session_token): Get account statistics.
-        translate(token, message, message_id): Translate a message.
-        get_contacts(token): Get the bot's contacts.
-        add_contact(uuid, token): Add a contact to the bot's list.
-        delete_contact(uuid, token): Delete a contact from the bot's list.
-        block_user(uuid, token): Block a user.
-        unblock_user(uuid, token): Unblock a user.
-        get_dialogue(dialogue, token): Get information about a specific dialogue.
-        get_topchats(token): Get the top chat dialogues.
-        join_chat(token, dialogue): Join a chat dialogue.
-        exit_chat(token, dialogue): Exit a chat dialogue.
-    """
     def __init__(self, prefix, dialogue, session_token=None):
         self.prefix = prefix
         self.running = False
@@ -76,6 +146,25 @@ class Bot:
             await self.message_updater.run(selfbot)
 
     async def login(self, token):
+        """
+        Bot.login()
+        ==============================
+
+        the login method despite its name doesnt actually
+        log you into the antiland platform it instead reaches
+        out to https://mobile-elb.antich.at/users/me usign the session token
+        as authentication. this then returns a instance of the Account class
+        to get the logged in user and to set up the message parsing
+
+        Args:
+            token (str): The session token for authentication.
+
+        This method is a decorator for authenticating the bot with the Antiland platform.
+
+        Example:
+            ::
+                await bot.login("your_session_token_here")
+        """
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
