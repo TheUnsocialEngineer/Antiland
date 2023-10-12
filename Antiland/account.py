@@ -1,8 +1,7 @@
 class Account:
-    r"""docstring"""
+    r"""Please """
     def __init__(self, data):
         self._data = data
-        self.poop="poop"
 
     @property
     def objectId(self):

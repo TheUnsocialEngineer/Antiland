@@ -4,6 +4,7 @@ from Antiland.message import Message
 from Antiland.message_updater import handle_response
 
 class Dialogue:
+    r"""test"""
     def __init__(self, data):
         self._data = data
 

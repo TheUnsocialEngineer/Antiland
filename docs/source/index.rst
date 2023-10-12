@@ -20,6 +20,3 @@ API Reference
    :maxdepth: 1
    
    api
-
-- **API Reference:** :doc:`api`
-
