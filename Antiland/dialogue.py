@@ -5,18 +5,55 @@ from Antiland.message_updater import handle_response
 
 class Dialogue:
     def __init__(self, data):
-        self.lang = data.get("lang")
-        self.groupAdmins = data.get("groupAdmins")
-        self.lastmessage = data["lastmessage"]
-        self.objectId = data["objectId"]
-        self.guestname = data.get("guestname")
-        self.foundername = data["foundername"]
-        self.founderId = data["founderId"]
-        self.private = data.get("private")
-        self.public = data.get("public")
-        self.humanLink = data.get("humanLink")
-        self.accepted = data.get("accepted")
-        self.flags = data.get("flags")
+        self._data = data
+
+    @property
+    def lang(self):
+        return self._data.get("lang")
+
+    @property
+    def groupAdmins(self):
+        return self._data.get("groupAdmins")
+
+    @property
+    def lastmessage(self):
+        return self._data["lastmessage"]
+
+    @property
+    def objectId(self):
+        return self._data["objectId"]
+
+    @property
+    def guestname(self):
+        return self._data.get("guestname")
+
+    @property
+    def foundername(self):
+        return self._data["foundername"]
+
+    @property
+    def founderId(self):
+        return self._data["founderId"]
+
+    @property
+    def private(self):
+        return self._data.get("private")
+
+    @property
+    def public(self):
+        return self._data.get("public")
+
+    @property
+    def humanLink(self):
+        return self._data.get("humanLink")
+
+    @property
+    def accepted(self):
+        return self._data.get("accepted")
+
+    @property
+    def flags(self):
+        return self._data.get("flags")
 
     async def like_message(self, messageid, senderid, token, dialogue):
         url = "https://www.antichat.me/uat/parse/functions/loveMessage"
