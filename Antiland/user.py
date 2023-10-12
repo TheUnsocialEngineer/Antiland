@@ -2,84 +2,67 @@ from datetime import datetime
 
 class User:
     def __init__(self, data):
-        self._data = data
+        self.created_at = data.get("createdAt")
+        self.updated_at = data.get("updatedAt")
+        self.profile_name = data.get("profileName")
+        self.age = data.get("age")
+        self.female = data.get("female")
+        self.avatar = data.get("avatar")
+        self.rating = data.get("rating")
+        self.anti_karma = data.get("antiKarma")
+        self.blocked_by = data.get("blockedBy")
+        self.blessed = data.get("blessed")
+        self.vip_exp_date = data.get("vipExpDate")
+        self.prison_exp_date=data.get("inPrisonTill")
+        self.is_admin = data.get("isAdmin")
+        self.is_vip = data.get("isVIP")
+        self.accessories = data.get("accessories")
+        self.premium_avatar = data.get("premiumAvatar")
+        self.min_karma = data.get("minKarma")
+        self.show_online = data.get("showOnline")
+        self.about_me = data.get("aboutMe") 
+        self.object_id = data.get("objectId")
 
     @property
-    def created_at(self):
-        return self._data.get("createdAt")
+    def created_at_time(self):
+         return self.created_at.split("T")[1].split(".")[0]
 
     @property
-    def updated_at(self):
-        return self._data.get("updatedAt")
+    def created_at_date(self):
+         return self.created_at.split("T")[0]
 
     @property
-    def profile_name(self):
-        return self._data.get("profileName")
+    def vip_exp_time(self):
+        if self.vip_exp_date and 'iso' in self.vip_exp_date:
+            iso_date_str = self.vip_exp_date['iso']
+            vip_datetime = datetime.fromisoformat(iso_date_str)
+            return vip_datetime.strftime("%H:%M:%S")
+        else:
+            return None
 
     @property
-    def age(self):
-        return self._data.get("age")
+    def vip_exp_date_date(self):
+        if self.vip_exp_date and 'iso' in self.vip_exp_date:
+            iso_date_str = self.vip_exp_date['iso']
+            vip_datetime = datetime.fromisoformat(iso_date_str)
+            return vip_datetime.strftime("%d:%m:%y")
+        else:
+            return None
 
     @property
-    def female(self):
-        return self._data.get("female")
+    def prison_exp_date_date(self):
+        if self.prison_exp_date and 'iso' in self.prison_exp_date:
+            iso_date_str = self.prison_exp_date['iso']
+            prison_datetime = datetime.fromisoformat(iso_date_str)
+            return prison_datetime.strftime('%d/%m/%Y')
+        else:
+            return None
 
     @property
-    def avatar(self):
-        return self._data.get("avatar")
-
-    @property
-    def rating(self):
-        return self._data.get("rating")
-
-    @property
-    def anti_karma(self):
-        return self._data.get("antiKarma")
-
-    @property
-    def blocked_by(self):
-        return self._data.get("blockedBy")
-
-    @property
-    def blessed(self):
-        return self._data.get("blessed")
-
-    @property
-    def vip_exp_date(self):
-        return self._data.get("vipExpDate")
-
-    @property
-    def prison_exp_date(self):
-        return self._data.get("inPrisonTill")
-
-    @property
-    def is_admin(self):
-        return self._data.get("isAdmin")
-
-    @property
-    def is_vip(self):
-        return self._data.get("isVIP")
-
-    @property
-    def accessories(self):
-        return self._data.get("accessories")
-
-    @property
-    def premium_avatar(self):
-        return self._data.get("premiumAvatar")
-
-    @property
-    def min_karma(self):
-        return self._data.get("minKarma")
-
-    @property
-    def show_online(self):
-        return self._data.get("showOnline")
-
-    @property
-    def about_me(self):
-        return self._data.get("aboutMe")
-
-    @property
-    def object_id(self):
-        return self._data.get("objectId")
+    def prison_exp_time(self):
+        if self.prison_exp_date and 'iso' in self.prison_exp_date:
+            iso_date_str = self.prison_exp_date['iso']
+            prison_datetime = datetime.fromisoformat(iso_date_str)
+            return prison_datetime.strftime('%H:%M:%S')
+        else:
+            return None
