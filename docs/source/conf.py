@@ -22,7 +22,7 @@ copyright = '2023, TheUnsocialEngineer'
 author = 'TheUnsocialEngineer'
 
 # The full version, including alpha/beta/rc tags
-release = '0.92'
+release = '0.93'
 
 
 # -- General configuration ---------------------------------------------------
