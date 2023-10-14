@@ -12,7 +12,6 @@
 #
 import os
 import sys
-import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('C:/Users/JordansGamingRig/Desktop/Antiland'))
 sys.path.append(os.path.abspath(
     os.path.join(__file__, "../../Antiland")
@@ -42,7 +41,6 @@ extensions = [
     'sphinx.ext.napoleon',
     'jsoner',
     'attributetable',
-    'sphinx_rtd_theme'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
