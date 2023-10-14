@@ -29,6 +29,10 @@ author = 'TheUnsocialEngineer'
 
 # The full version, including alpha/beta/rc tags
 release = '0.93'
+<<<<<<< HEAD
+=======
+
+>>>>>>> bca6481ea8588bba3c5955ef0a60f54633a99c32
 
 autodoc_member_order = 'groupwise'
 # -- General configuration ---------------------------------------------------
