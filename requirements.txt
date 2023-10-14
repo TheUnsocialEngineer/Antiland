@@ -1,12 +1,6 @@
 requests
-base64
-requests
-json
-requests
-base64
-requests
-threading
 num2words
 datetime
 inflect
 aiohttp
+sphinx_rtd_theme

@@ -5,7 +5,7 @@ from Antiland.account import Account
 from Antiland.user import User
 class Bot:
     r"""
-    The `Bot` class represents a bot in the Antiland platform.
+    The `Bot` class represents a bot on the Antiland platform.
 
     Args:
         prefix (str): The command prefix to trigger bot commands.
@@ -31,7 +31,7 @@ class Bot:
         update_profile(session_token, **kwargs): Update the bot's profile.
         stats(session_token): Get account statistics.
         translate(token, message, message_id): Translate a message.
-        get_contacts(token): Get the bot's contacts.
+        get_contacts(token): Get the bot's contacts, returns an instance of the User class.
         add_contact(uuid, token): Add a contact to the bot's list.
         delete_contact(uuid, token): Delete a contact from the bot's list.
         block_user(uuid, token): Block a user.
@@ -77,25 +77,6 @@ class Bot:
             await self.message_updater.run(selfbot)
 
     async def login(self, token):
-        """
-        Bot.login()
-        ==============================
-
-        the login method despite its name doesnt actually
-        log you into the antiland platform it instead reaches
-        out to https://mobile-elb.antich.at/users/me usign the session token
-        as authentication. this then returns a instance of the Account class
-        to get the logged in user and to set up the message parsing
-
-        Args:
-            token (str): The session token for authentication.
-
-        This method is a decorator for authenticating the bot with the Antiland platform.
-
-        Example:
-            ::
-                await bot.login("your_session_token_here")
-        """
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
