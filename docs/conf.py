@@ -14,9 +14,9 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('C:/Users/JordansGamingRig/Desktop/Antiland'))
 sys.path.append(os.path.abspath(
-    os.path.join(__file__, "../../Antiland")
+    os.path.join(__file__, "Antiland")
 ))
-sys.path.append(os.path.abspath('../extensions'))
+sys.path.append(os.path.abspath('extensions'))
 
 autodoc_mock_imports = ["aiohttp"]
 
@@ -39,6 +39,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
+    'jsoner',
     'attributetable',
 ]
 
