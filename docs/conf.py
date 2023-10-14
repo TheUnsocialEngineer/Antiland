@@ -40,8 +40,7 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
     'jsoner',
-    'attributetable',
-    'sphinx_rtd_theme'
+    'attributetable'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
