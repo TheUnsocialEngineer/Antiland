@@ -15,9 +15,6 @@ import sys
 sys.path.append(os.path.abspath(
     os.path.join(__file__, "..")
 ))
-sys.path.append(os.path.abspath('../extensions'))
-for x in os.listdir(os.path.abspath('../extensions')):
-    print(x)
 
 autodoc_mock_imports = ["aiohttp"]
 
