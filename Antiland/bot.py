@@ -3,6 +3,7 @@ from Antiland.message_updater import MessageUpdater
 from Antiland.dialogue import Dialogue
 from Antiland.account import Account
 from Antiland.user import User
+import asyncio
 
 class Bot:
     r"""
@@ -71,15 +72,17 @@ class Bot:
                     else:
                         await self.commands[command]()
 
-    async def start(self, token, selfbot=False):
+    def start(self, token, selfbot=False):
         if token:
-            login = await self.login(token)
+            # Create an event loop to run the async function
+            loop = asyncio.get_event_loop()
+            login = loop.run_until_complete(self.login_async(token))
             main_username = login[2]
+            username = login[1]
             self.message_updater = MessageUpdater(self.url, main_username, self.process_message, selfbot)
-            await self.message_updater.run(selfbot)
-            await self.event_system.start()
+            loop.run_until_complete(self.message_updater.run(selfbot))
 
-    async def login(self, token):
+    async def login_async(self, token):
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
