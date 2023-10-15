@@ -4,7 +4,45 @@ from Antiland.message import Message
 from Antiland.message_updater import handle_response
 
 class Dialogue:
-    r"""test"""
+    """
+    Represents a dialogue or chat conversation within the Antiland application.
+
+    Attributes:
+        lang (str): The language of the dialogue.
+        groupAdmins (list): List of group administrators' data.
+        lastmessage (str): The last message in the dialogue.
+        objectId (str): The unique identifier for the dialogue.
+        guestname (str): The guest's name in the dialogue.
+        foundername (str): The founder's name.
+        founderId (str): The unique identifier of the founder.
+        private (bool): Indicates if the dialogue is private.
+        public (bool): Indicates if the dialogue is public.
+        humanLink (str): A human-readable link associated with the dialogue.
+        accepted (bool): Indicates if the dialogue has been accepted.
+        flags (str): Flags associated with the dialogue.
+
+    Methods:
+        like_message(messageid, senderid, token, dialogue):
+            Like a specific message in the dialogue.
+        send_message(message, token=None, dialogue=None):
+            Send a message to the dialogue.
+        send_video(filepath, token, dialogue):
+            Send a video message to the dialogue.
+        send_image(filepath, token=None, dialogue=None):
+            Send an image message to the dialogue.
+        get_messages(chatid, token):
+            Get a list of messages in the dialogue.
+        add_mod(uuid, dialogue, token):
+            Add a moderator to the dialogue.
+        remove_mod(uuid, dialogue, token):
+            Remove a moderator from the dialogue.
+
+    Args:
+        data (dict): A dictionary containing dialogue-related data.
+
+    Note:
+        The methods in this class use asynchronous I/O operations and should be awaited.
+    """
     def __init__(self, data):
         self._data = data
 
