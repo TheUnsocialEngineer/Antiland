@@ -19,12 +19,6 @@ User
    :undoc-members:
    :exclude-members: get_time get_date
 
-Dialogue
-~~~~~~~~~
-.. autoclass:: Antiland.dialogue.Dialogue
-   :members:
-   :undoc-members:
-
 Message
 ~~~~~~~~~
 .. autoclass:: Antiland.message.Message
