@@ -13,9 +13,8 @@
 import os
 import sys
 import sphinx_rtd_theme
-sys.path.insert(0, os.path.abspath('C:/Users/JordansGamingRig/Desktop/Antiland'))
 sys.path.append(os.path.abspath(
-    os.path.join(__file__, "../../Antiland")
+    os.path.join(__file__, "..")
 ))
 sys.path.append(os.path.abspath('../extensions'))
 
