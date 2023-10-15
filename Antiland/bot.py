@@ -3,6 +3,7 @@ from Antiland.message_updater import MessageUpdater
 from Antiland.dialogue import Dialogue
 from Antiland.account import Account
 from Antiland.user import User
+
 class Bot:
     r"""
     The `Bot` class represents a bot on the Antiland platform.
@@ -53,6 +54,7 @@ class Bot:
         self.chats = {}
         self.dialogue = dialogue
         self.url = f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
+        self.event_handlers = {}
 
     async def process_message(self, message, token):
         if str(message).startswith(self.prefix):
@@ -75,6 +77,7 @@ class Bot:
             main_username = login[2]
             self.message_updater = MessageUpdater(self.url, main_username, self.process_message, selfbot)
             await self.message_updater.run(selfbot)
+            await self.event_system.start()
 
     async def login(self, token):
         url = "https://mobile-elb.antich.at/users/me"
@@ -98,13 +101,10 @@ class Bot:
                     main_name = f"{username} {emoji}"
                     print("Logged in as {}".format(username))
                     return (username, gender, main_name)
-
-    def command(self, name):
-        def decorator(func):
-            self.commands[name] = func
-            return func
-
-        return decorator
+    
+    def command(self, func):
+        self.commands[func.__name__] = func
+        return func
 
     async def update_profile(self, session_token, **kwargs):
         base_url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'

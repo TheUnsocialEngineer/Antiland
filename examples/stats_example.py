@@ -7,7 +7,7 @@ prefix="!"
 
 bot = Antiland.Bot(prefix,dialogue,session_token)
 
-@bot.command("stats")
+@bot.command
 async def stats():
     stats=bot.stats(session_token)
     # Create a message with the formatted stats
@@ -21,8 +21,5 @@ async def stats():
     room= await bot.get_dialogue(dialogue,session_token)
     await room.send_message(message,session_token,room.objectId)
 
-async def main():
-    await bot.start(session_token)
 
-if __name__ == "__main__":
-    asyncio.run(main())
+bot.start(session_token)

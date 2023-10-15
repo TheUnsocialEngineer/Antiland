@@ -9,7 +9,7 @@ prefix="!"
 
 bot = Antiland.Bot(prefix,dialogue,session_token)
 
-@bot.command("image")
+@bot.command
 async def image():
     room = await bot.get_dialogue(dialogue, session_token)
     
@@ -22,8 +22,4 @@ async def image():
     await room.send_image(output_path, session_token, room.objectId)
     os.remove(output_path)
 
-async def main():
-    await bot.start(session_token)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+bot.start(session_token)
