@@ -20,7 +20,8 @@ Getting started
 Is this your first time using the library? This is the place to get started!
 
 - **First steps:** :doc:`intro` | :doc:`quickstart` | 
-- `**Examples:** https://github.com/TheUnsocialEngineer/Antiland/tree/master/examples`
+- **Examples:** Examples are Located in the examples directory 
+- https://github.com/TheUnsocialEngineer/Antiland/tree/master/examples.
 
 API Reference
 --------------
