@@ -27,7 +27,7 @@ API Reference
    :maxdepth: 1
 
    api
-   Antiland.ext.commands API Reference <ext/commands/api.rst>
+   Antiland.ext.commands API Reference </ext/commands/api.rst>
 
 Extensions
 ------------
@@ -37,4 +37,4 @@ This extension willhelp you during development when it comes to creating specifi
 .. toctree::
   :maxdepth: 1
 
-  ext/commands/index.rst
+  /ext/commands/index.rst
