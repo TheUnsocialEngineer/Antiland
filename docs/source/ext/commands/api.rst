@@ -1,5 +1,5 @@
 
-``Antiland.ext.commands`` -- Bot commands framework
+Bot commands framework API
 ====================================================
 
 
