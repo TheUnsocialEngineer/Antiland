@@ -47,7 +47,7 @@ Positional
 ++++++++++++
 
 The most basic form of a command with a passed paramater would be.
-.. code-block:: python3
+.. code-block:: python
 
     @bot.command
     async def test(arg):
