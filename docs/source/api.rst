@@ -14,19 +14,18 @@ Bot
 
 User
 ~~~~~
-.. autoclass:: Antiland.User
+.. autoclass:: Antiland.user.User
    :members:
    :undoc-members:
    :exclude-members: get_time get_date
 
 Dialogue
 ~~~~~~~~~
-.. autoclass:: Antiland.Dialogue
+.. autoclass:: Antiland.dialogue.Dialogue
    :members:
-   :undoc-members:
 
 Message
 ~~~~~~~~~
-.. autoclass:: Antiland.Message
+.. autoclass:: Antiland.message.Message
    :members:
    :undoc-members:
