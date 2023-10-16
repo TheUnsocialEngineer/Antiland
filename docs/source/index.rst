@@ -7,7 +7,7 @@ Antiland Package Documentation
    intro
    quickstart
    /ext/commands/api.rst
-   extentions
+   extensions
 
 .. image:: antiland_logo.png
    :align: center
