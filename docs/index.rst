@@ -6,7 +6,9 @@ Antiland Package Documentation
    
    intro
    quickstart
+   Antiland.ext.commands API Reference /ext/commands/api.rst
    extentions
+   
 
 .. image:: antiland_logo.png
    :align: center
@@ -27,7 +29,7 @@ API Reference
    :maxdepth: 1
 
    api
-   Antiland.ext.commands API Reference </ext/commands/api.rst>
+   Antiland.ext.commands API Reference /ext/commands/api.rst
 
 Extensions
 ------------
