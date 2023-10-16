@@ -2,28 +2,32 @@ import json
 import aiohttp
 from datetime import datetime
 
-async def handle_response(response, expected_status_code):
-    error_message = await response.text()
-    if "My rude words were blocked." in error_message:
-        print("Message Blocked For Innapropriate Language")
-    if "Message blocked." in error_message:
-        print("Message Blocked For Personal Data")
-    if response.status != expected_status_code:
-        print(f"Request failed with status code {response.status}: {error_message}")
-        # You can raise an exception here or handle the error as needed.
-    else:
-        pass  # Assuming the response is JSON
+class Message:
+    def __init__(self, message_data):
+        self.text = message_data.get("d", {}).get("message")
+        self.sender_id = message_data.get("d", {}).get("senderId")
+        self.sender_name = message_data.get("d", {}).get("sendersName")
 
 class MessageUpdater:
-    previous_message_text = None
-
-    def __init__(self, url, username, callback,selfbot):
+    def __init__(self, url, username, selfbot=False):
         self.url = url
         self.username = username
-        self.callback = callback
+        self.selfbot = selfbot
         self.running = False
         self.session = None
-        self.selfbot=selfbot
+        self.previous_message_text = None
+    
+    async def handle_response(self, response, expected_status_code):
+        error_message = await response
+        if "My rude words were blocked." in error_message:
+            print("Message Blocked For Inappropriate Language")
+        if "Message blocked." in error_message:
+            print("Message Blocked For Personal Data")
+        if response.status != expected_status_code:
+            print(f"Request failed with status code {response.status}: {error_message}")
+            # You can raise an exception here or handle the error as needed.
+        else:
+            pass  # Assuming the response is JSON
 
     async def fetch_messages(self):
         async with self.session.get(self.url) as response:
@@ -42,44 +46,35 @@ class MessageUpdater:
 
     async def run(self,selfbot):
         self.running = True
-        self.selfbot=selfbot
         previous_message_text = None
+        self.selfbot=selfbot
         async with aiohttp.ClientSession() as session:
             self.session = session
             while self.running:
                 json_response = await self.fetch_messages()
                 if json_response:
-                    message_text = self.extract_message_text(json_response)
-                    message_sender = self.extract_message_sender(json_response)
+                    messages_data = json_response.get("m", [])
+                    messages = [Message(message_data) for message_data in messages_data]
+                    last_message=messages[-1]
+                    message_text = last_message.text
+                    message_sender = last_message.sender_name
                     # Check the selfbot flag directly
                     if not self.selfbot:  # Respond to all messages
                         if message_text and message_text != previous_message_text:
                             previous_message_text = message_text
-                            await self.callback(message_text, message_sender)
+                            await self.callback(message_sender, message_text)
                     elif self.selfbot:  # Respond only to messages from the logged-in user
                         if message_text and message_text != previous_message_text and message_sender == self.username:
                             previous_message_text = message_text
-                            await self.callback(message_text, message_sender)
-
-
-    def extract_message_text(self, json_response):
-        messages = json_response.get("m", [])
-        if messages:
-            last_message = messages[-1]
-            message_text = last_message.get("d", {}).get("message")
-            return message_text
-        return None
-
-    def extract_message_sender(self, json_response):
-        messages = json_response.get("m", [])
-        if messages:
-            last_message = messages[-1]
-            message_sender = last_message.get("d", {}).get("sendersName")
-            return message_sender
-        return None
+                            await self.callback(message_sender, message_text)
 
     async def start(self):
         await self.run()
 
     def stop(self):
         self.running = False
+
+    async def callback(self, message_sender,message_text ):
+        # Implement your callback logic here
+        print(message_sender,message_text)
+        return(message_sender,message_text)

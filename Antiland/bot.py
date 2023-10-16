@@ -51,26 +51,11 @@ class Bot:
         self.session_token = session_token
         self.message_updater = None
         self.commands = {}
+        self.events = {}
         self.dialogue = None
         self.chats = {}
         self.dialogue = dialogue
         self.url = f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
-        self.event_handlers = {}
-
-    async def process_message(self, message, token):
-        if str(message).startswith(self.prefix):
-            parts = message[len(self.prefix):].split(" ")
-            if len(parts) >= 1:  # Check if there is at least one part (the command itself)
-                command = parts[0]
-                if len(parts) >= 2:  # Check if there is a parameter
-                    param = parts[1]
-                else:
-                    param = None  # No parameter provided
-                if command in self.commands:
-                    if param is not None:
-                        await self.commands[command](param)
-                    else:
-                        await self.commands[command]()
 
     def start(self, token, selfbot=False):
         if token:
@@ -78,9 +63,10 @@ class Bot:
             loop = asyncio.get_event_loop()
             login = loop.run_until_complete(self.login_async(token))
             main_username = login[2]
-            username = login[1]
-            self.message_updater = MessageUpdater(self.url, main_username, self.process_message, selfbot)
+            self.message_updater = MessageUpdater(self.url, main_username,selfbot=False)
+            self.message_updater.callback = self.on_message
             loop.run_until_complete(self.message_updater.run(selfbot))
+            self.run_events()
 
     async def login_async(self, token):
         url = "https://mobile-elb.antich.at/users/me"
@@ -102,12 +88,21 @@ class Bot:
                     else:
                         emoji = "🚹"
                     main_name = f"{username} {emoji}"
-                    print("Logged in as {}".format(username))
+                    print(f"Logged in as {username}")
                     return (username, gender, main_name)
     
-    def command(self, func):
-        self.commands[func.__name__] = func
+    async def on_message(self, sender, text):
+        # Trigger message event
+        for event_name, event_func in self.events.items():
+            await event_func(sender, text)
+
+    def event(self, func):
+        self.events[func.__name__] = func
         return func
+
+    def run_events(self):
+        for event_name, event_func in self.events.items():
+            asyncio.create_task(event_func())
 
     async def update_profile(self, session_token, **kwargs):
         base_url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
@@ -133,7 +128,7 @@ class Bot:
         except Exception as e:
             print(f"Error: {e}")
 
-    async def stats(self, session_token):
+    async def get_stats(self, session_token):
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
