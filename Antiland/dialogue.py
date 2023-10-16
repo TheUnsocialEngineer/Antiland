@@ -1,7 +1,6 @@
 import aiohttp
 import base64
 from Antiland.message import Message
-from Antiland.message_updater import handle_response
 
 class Dialogue:
     """
@@ -108,8 +107,7 @@ class Dialogue:
         }
 
         async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_payload) as response:
-                return await handle_response(response, expected_status_code=200)
+            await session.post(url, json=json_payload)
 
     async def send_message(self, message, token=None, dialogue=None):
         url = "https://mobile-elb.antich.at/classes/Messages"
@@ -126,12 +124,13 @@ class Dialogue:
 
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as response:
-                     return await handle_response(response, expected_status_code=201)
+                await session.post(url, json=json_payload)
+
         except aiohttp.ClientError as client_error:
             print(f"Aiohttp ClientError: {client_error}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
 
     async def send_video(self, filepath, token, dialogue):
         # Convert backslashes to forward slashes in the file path
