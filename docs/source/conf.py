@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import re
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 autodoc_mock_imports = ["aiohttp"]
@@ -35,6 +36,16 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.napoleon',
 ]
+version = ''
+with open('../Antiland/__init__.py') as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
+# This assumes a tag is available for final releases
+branch = 'master' if version.endswith('a') else 'v' + version
+resource_links = {
+  'issues': 'https://github.com/TheUnsocialEngineer/Antiland/issues',
+  'discussions': 'https://github.com/TheUnsocialEngineer/Antiland/discussions',
+  'examples': f'https://github.com/TheUnsocialEngineer/Antiland/tree/{branch}/examples',
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
