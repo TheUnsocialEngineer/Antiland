@@ -155,7 +155,7 @@ class User:
         r""":meta private:"""
         if date_str:
             date_time = datetime.fromisoformat(date_str)
-            return date_time.strftime("%d:%m:%y")
+            return date_time.strftime("%d/%m/%y")
         else:
             return None
 
