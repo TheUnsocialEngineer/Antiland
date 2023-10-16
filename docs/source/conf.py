@@ -42,7 +42,7 @@ with open('../Antiland/__init__.py') as f:
 # This assumes a tag is available for final releases
 branch = 'master' if version.endswith('a') else 'v' + version
 resource_links = {
-  'issues': 'https://github.com/TheUnsocialEngineer/Antiland/issues',
+  'issues': 'https://github.com/TheUnsocialEngineer/Antiland/issues',   
   'discussions': 'https://github.com/TheUnsocialEngineer/Antiland/discussions',
   'examples': f'https://github.com/TheUnsocialEngineer/Antiland/tree/{branch}/examples',
 }
