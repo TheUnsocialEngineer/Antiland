@@ -6,6 +6,7 @@ Antiland Package Documentation
    
    intro
    quickstart
+   extentions
 
 .. image:: antiland_logo.png
    :align: center
@@ -26,3 +27,14 @@ API Reference
    :maxdepth: 1
 
    api
+   Antiland.ext.commands API Reference <ext/commands/api.rst>
+
+Extensions
+------------
+
+This extension willhelp you during development when it comes to creating specific bot commands.
+
+.. toctree::
+  :maxdepth: 1
+
+  ext/commands/index.rst
