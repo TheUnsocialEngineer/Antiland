@@ -13,7 +13,7 @@ if you don't check the :ref:`installing` portion.
 A Basic Antiland Bot
 --------------------
 
-Let's make a simple bot with 2 registered commands that send messages into the chat.
+Let's make a simple bot that listens for messages and prints when one has been detected.
 
 It looks something like this:
 
@@ -22,22 +22,18 @@ It looks something like this:
     import Antiland
     import asyncio
 
-    session_token = "" # insert session token here
-    dialogue = ""   #enter chatid here
-    prefix = "!" # prefix can be anything you want
+    session_token = ""
+    dialogue = ""
+    prefix = "!"
 
     bot = Antiland.Bot(prefix, dialogue, session_token)
 
-    @bot.command
-    async def say_hello():
-        room = await bot.get_dialogue(dialogue, session_token)
-        await room.send_message("hello world", session_token, dialogue)
+    @bot.event
+    async def on_message(message):
+        if str(message).startswith(prefix):
+            print(f"command recieved {message}")
 
-    @bot.command
-    async def debug():
-        room =await bot.get_dialogue("enter dialogue id here", session_token)
-        await room.send_message("BOT IS WORKING", session_token, dialogue)
-        
+
     bot.start(session_token)
 
 Let's name this file ``antiland_bot_example.py``. Make sure not to name it ``antiland.py`` as that'll conflict
