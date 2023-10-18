@@ -28,9 +28,8 @@ class Bot:
     Methods:
         process_message(message, token): Process incoming messages and execute commands.
         start(token, selfbot=False): Start the bot, log in, and initiate message updates.
-        login(token): Log in to the Antiland platform.
         command(name): Decorator to define bot commands.
-        update_profile(session_token, **kwargs): Update the bot's profile.
+        update_profile(session_token, **kwargs): Update the bot's profile accepts age, profileName and aboutMe as kwargs.
         stats(session_token): Get account statistics.
         translate(token, message, message_id): Translate a message.
         get_contacts(token): Get the bot's contacts, returns an instance of the User class.
@@ -69,6 +68,7 @@ class Bot:
             self.run_events()
 
     async def login_async(self, token):
+        """:meta private:"""
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
