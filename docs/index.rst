@@ -1,14 +1,6 @@
 Antiland Package Documentation
 ==============================
 
-.. toctree::
-   :maxdepth: 1
-   
-   intro
-   quickstart
-   /ext/commands/api.rst
-   extensions
-
 .. image:: antiland_logo.png
    :align: center
 
