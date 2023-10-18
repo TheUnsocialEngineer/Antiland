@@ -1,0 +1,7 @@
+requests
+num2words
+datetime
+inflect
+aiohttp
+sphinx_rtd_theme
+sphinx
