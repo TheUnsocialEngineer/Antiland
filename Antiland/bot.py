@@ -17,7 +17,6 @@ class Bot:
     Attributes:
         prefix (str): The command prefix to trigger bot commands.
         running (bool): A flag to indicate if the bot is running.
-        token (str): The authentication token.
         session_token (str): The session token for authentication.
         message_updater (MessageUpdater): An instance of the MessageUpdater class.
         commands (dict): A dictionary to store bot commands.
