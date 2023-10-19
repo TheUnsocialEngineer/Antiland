@@ -8,6 +8,7 @@ class Message:
         self.sender_id = message_data.get("d", {}).get("senderId")
         self.sender_name = message_data.get("d", {}).get("sendersName")
         self.image = message_data.get("d", {}).get("media", {}).get("source")
+        self.id=message_data.get("d", {}).get("objectId")
 
 class MessageUpdater:
     def __init__(self, url, username, selfbot=False):
