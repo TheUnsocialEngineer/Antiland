@@ -1,5 +1,4 @@
 from Antiland.ext import commands
-import asyncio
 
 session_token = ""
 dialogue = ""

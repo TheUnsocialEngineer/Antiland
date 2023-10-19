@@ -39,31 +39,50 @@ to get the token and you use developer consoles network tab to look at any outgo
 ![App Screenshot](https://i.imgur.com/ZkVi80e.png)
 
 
+below is an example of a bot that prints every message it receives
+
+```python
+import Antiland
+session_token = ""
+dialogue = ""
+prefix = "!"
+
+bot = Antiland.Bot(prefix, dialogue, session_token)
+
+@bot.event
+async def on_message(message):
+    # Implement your event handling logic here
+    print(f"Received message from {message.sender_name}: {message.text}")
+
+bot.start(session_token)
+```
+
+
 below is a very basic example for logging in and registering a hello command
 which when ran will send hello world into the chat and register a debug command
 which will send a message to the channel of your choice
 
 ```python
-import Antiland
+from Antiland.ext import commands
 
-session_token="insert_session_token"
-dialogue="insert_dialogue_id"
-prefix="!"
+session_token = ""
+dialogue = ""
+prefix = "!"
 
-bot = Antiland.Bot(prefix,dialogue,session_token)
+bot = commands.Bot(prefix, dialogue, session_token)
 
-@bot.command("hello")
-def say_hello():
-    room=bot.get_dialogue(dialogue,session_token)
-    room.send_message("hello world",session_token,dialogue)
+@bot.command
+async def say_hello():
+    room = await bot.get_dialogue(dialogue, session_token)
+    await room.send_message("hello world", session_token, dialogue)
 
-@bot.command("debug")
-def debug():
-    room=bot.get_dialogue("enter dialogue id here",session_token)
-    room.send_message("BOT IS WORKING",session_token,dialogue)
+@bot.command
+async def debug():
+    room =await bot.get_dialogue("enter dialogue id here", session_token)
+    await room.send_message("BOT IS WORKING", session_token, dialogue)
 
-if __name__ == "__main__":
-    bot.start(session_token)
+
+bot.start(session_token)
     
 ```
 
