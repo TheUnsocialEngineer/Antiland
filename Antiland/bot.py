@@ -90,10 +90,10 @@ class Bot:
                     print(f"Logged in as {username}")
                     return (username, gender, main_name)
     
-    async def on_message(self, sender, text):
+    async def on_message(self,text):
         # Trigger message event
         for event_name, event_func in self.events.items():
-            await event_func(sender, text)
+            await event_func(text)
 
     def event(self, func):
         self.events[func.__name__] = func
