@@ -1,11 +1,11 @@
-import Antiland
+from Antiland.ext import commands
 import asyncio
 
 session_token = ""
 dialogue = ""
 prefix = "!"
 
-bot = Antiland.Bot(prefix, dialogue, session_token)
+bot = commands.Bot(prefix, dialogue, session_token)
 
 @bot.command
 async def say_hello():

@@ -1,7 +1,6 @@
 import Antiland
 from PIL import Image
 import os
-import asyncio
 
 session_token="insert_session_token"
 dialogue="insert_dialogue_id"

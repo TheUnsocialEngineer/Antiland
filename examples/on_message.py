@@ -1,6 +1,4 @@
 import Antiland
-import asyncio
-
 session_token = ""
 dialogue = ""
 prefix = "!"

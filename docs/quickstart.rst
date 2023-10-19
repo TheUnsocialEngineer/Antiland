@@ -20,7 +20,6 @@ It looks something like this:
 .. code-block:: python
 
     import Antiland
-    import asyncio
 
     session_token = ""
     dialogue = ""
