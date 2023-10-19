@@ -95,9 +95,9 @@ class Bot:
         self.commands[func.__name__] = func
         return func
 
-    async def on_message(self, sender, text):
-        if str(text).startswith(self.prefix):
-            parts = str(text)[len(self.prefix):].split(" ")
+    async def on_message(self, message):
+        if str(message.text).startswith(self.prefix):
+            parts = str(message.text)[len(self.prefix):].split(" ")
             if len(parts) >= 1:  # Check if there is at least one part (the command itself)
                 command = parts[0]
                 if len(parts) >= 2:  # Check if there is a parameter
@@ -111,7 +111,7 @@ class Bot:
                         await self.commands[command]()
         # Trigger message event
         for event_name, event_func in self.events.items():
-            await event_func(sender, text)
+            await event_func(message)
 
     def event(self, func):
         self.events[func.__name__] = func

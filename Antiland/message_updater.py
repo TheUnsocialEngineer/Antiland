@@ -62,11 +62,11 @@ class MessageUpdater:
                     if not self.selfbot:  # Respond to all messages
                         if message_text and message_text != previous_message_text:
                             previous_message_text = message_text
-                            await self.callback(message_sender, message_text)
+                            await self.callback(last_message)
                     elif self.selfbot:  # Respond only to messages from the logged-in user
                         if message_text and message_text != previous_message_text and message_sender == self.username:
                             previous_message_text = message_text
-                            await self.callback(message_sender, message_text)
+                            await self.callback(last_message)
 
     async def start(self):
         await self.run()
@@ -74,7 +74,7 @@ class MessageUpdater:
     def stop(self):
         self.running = False
 
-    async def callback(self, message_sender,message_text ):
+    async def callback(self,message):
         # Implement your callback logic here
-        print(message_sender,message_text)
-        return(message_sender,message_text)
+        print(message)
+        return(message)
