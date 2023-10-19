@@ -69,6 +69,7 @@ class Bot:
             self.run_events()
 
     async def login_async(self, token):
+        """:meta private:"""
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
@@ -90,10 +91,19 @@ class Bot:
                     main_name = f"{username} {emoji}"
                     print(f"Logged in as {username}")
                     return (username, gender, main_name)
+    
+    async def on_message(self, sender, text):
+        # Trigger message event
+        for event_name, event_func in self.events.items():
+            await event_func(sender, text)
 
-    def command(self, func):
-        self.commands[func.__name__] = func
+    def event(self, func):
+        self.events[func.__name__] = func
         return func
+
+    def run_events(self):
+        for event_name, event_func in self.events.items():
+            asyncio.create_task(event_func())
 
     async def on_message(self, message):
         if str(message.text).startswith(self.prefix):
