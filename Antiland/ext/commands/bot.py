@@ -104,6 +104,9 @@ class Bot:
     def run_events(self):
         for event_name, event_func in self.events.items():
             asyncio.create_task(event_func())
+    def command(self, func):
+        self.commands[func.__name__] = func
+        return func
 
     async def on_message(self, message):
         if str(message.text).startswith(self.prefix):
