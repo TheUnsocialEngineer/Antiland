@@ -76,5 +76,4 @@ class MessageUpdater:
 
     async def callback(self,message):
         # Implement your callback logic here
-        print(message)
         return(message)
