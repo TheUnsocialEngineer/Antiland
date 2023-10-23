@@ -60,7 +60,11 @@ class Bot:
             # Create an event loop to run the async function
             loop = asyncio.get_event_loop()
             login = loop.run_until_complete(self.login_async(token))
-            main_username = login[2]
+            try:
+                main_username = login[2]
+            except:
+                print("Invalid Session Token")
+                exit()
             self.message_updater = MessageUpdater(self.url, main_username,selfbot=False)
             self.message_updater.callback = self.on_message
             loop.run_until_complete(self.message_updater.run(selfbot))
