@@ -8,7 +8,7 @@ This section provides documentation for various classes in the Antiland package.
 Bot
 ~~~~
 
-.. automodule:: Antiland.Bot
+.. autoclass:: Antiland.Bot
    :members:
    :undoc-members:
    
@@ -28,5 +28,11 @@ Dialogue
 Message
 ~~~~~~~~~
 .. autoclass:: Antiland.message.Message
+   :members:
+   :undoc-members:
+
+Account
+~~~~~~~~~
+.. autoclass:: Antiland.account.Account
    :members:
    :undoc-members:
