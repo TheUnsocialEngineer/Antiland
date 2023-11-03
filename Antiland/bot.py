@@ -37,6 +37,7 @@ class Bot:
         self.chats = {}
         self.dialogue = dialogue
         self.url = f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
+    
     def start(self, token, selfbot=False):
         if token:
             # Create an event loop to run the async function
@@ -449,6 +450,19 @@ class Bot:
             print(f"Error: {e}")
     
     async def send_gift(self,gift_type,reciever,dialogue,session_token):
+        """
+        Send a gift
+
+        Parameters:
+        gift_type (str): The type of gift to send e.g. rose.
+        reciever (str): The recipient's ID or username.
+        dialogue (str): The ID of the dialogue or conversation related to the gift.
+        session_token (str): A session token for authentication and authorization.
+
+        Example:
+        result = await bot.send_gift("rose", "user123", "dialogue456", "your_session_token_here")
+        print(result)
+        """
         url="https://mobile-elb.antich.at/functions/purchaseGift"
         json_payload={
                 "currency": "karma",
