@@ -3,6 +3,7 @@ from Antiland.message_updater import MessageUpdater
 from Antiland.dialogue import Dialogue
 from Antiland.account import Account
 from Antiland.user import User
+from Antiland.bot import Bot as botto
 import asyncio
 
 class Bot:
@@ -141,261 +142,152 @@ class Bot:
             asyncio.create_task(event_func())
 
     async def update_profile(self, session_token, **kwargs):
-        base_url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
-        common_data = {
-            "_method": "PUT",
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": session_token
-        }
+        """
+        Update the bot's profile with the provided attributes.
 
-        payload = common_data.copy()
-        payload.update(kwargs)
-
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.put(base_url, json=payload) as response:
-                    if response.status == 200:
-                        print("Profile update successful.")
-                    else:
-                        print(f"Profile update failed with status code {response.status}.")
-                        print(await response.text())
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            session_token (str): The session token for authentication.
+            kwargs: Keyword arguments for profile attributes (e.g., age, profileName, aboutMe).
+        """
+        return(await botto.update_profile(self,session_token,**kwargs))
 
     async def get_stats(self, session_token):
-        url = "https://mobile-elb.antich.at/users/me"
-        json_data = {
-            "_method": "GET",
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "76b2aae2-0087-83e5-b86a-1a6d8ab69618",
-            "_SessionToken": session_token
-        }
+        """
+        Get account statistics.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_data) as response:
-                    if response.status == 200:
-                        user_data = await response.json()
-                        account = Account(user_data)
-                        return account
-                    else:
-                        return None
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            session_token (str): The session token for authentication.
+
+        Returns:
+            Account: An Account instance containing account statistics.
+        """
+        return(await botto.get_stats(self,session_token))
 
     async def translate(self, token, message, message_id):
-        url = "https://mobile-elb.antich.at/functions/translateMessage"
-        json_data = {
-            "text": message,
-            "messageId": message_id,
-            "persist": True,
-            "lang": "en",
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "76b2aae2-0087-83e5-b86a-1a6d8ab69618",
-            "_SessionToken": token
-        }
+        """
+        Translate a message.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_data) as translate:
-                    translated = await translate.json()
-                    result = translated.get("result")
-                    return result
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            token (str): The authentication token for the bot.
+            message (str): The message to be translated.
+            message_id (str): The message ID.
+
+        Returns:
+            str: The translated message.
+        """
+        return(await botto.translate(self,token,message,message_id))
 
     async def get_contacts(self, token):
-        url = "https://mobile-elb.antich.at/functions/getContacts"
-        json_payload = {
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Get the bot's contacts.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    data = await r.json()
-                    users = [User(user_data) for user_data in data["result"]]
-                    return users
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            token (str): The authentication token for the bot.
+
+        Returns:
+            list: A list of User instances representing bot contacts.
+        """
+        return(await botto.get_contacts(self,token))
 
     async def add_contact(self, uuid, token):
-        url = "https://www.antichat.me/uat/parse/functions/addContact"
-        json_payload = {
-            "contact": uuid,
-            "v": 10001,
-            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
-            "_SessionToken": token
-        }
+        """
+        Add a contact to the bot's contact list.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    pass
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            uuid (str): The UUID of the contact to be added.
+            token (str): The authentication token for the bot.
+        Returns:
+            User: A User instance representing the specified user.
+        """
+        return(await botto.add_contact(self,uuid,token))
 
     async def delete_contact(self, uuid, token):
-        url = "https://mobile-elb.antich.at/functions/deleteContact"
-        json_payload = {
-            "contact": uuid,
-            "v": 10001,
-            "_ApplicationId": "VxfAeNw8Vuw2XKCN",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "23b9f34b-a753-e248-b7c2-c80e38bc3b40",
-            "_SessionToken": token
-        }
+        """
+        Delete a contact from the bot's contact list.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    pass
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            uuid (str): The UUID of the contact to be deleted.
+            token (str): The authentication token for the bot.
+        """
+        return(await botto.delete_contact(self,uuid,token))
 
     async def block_user(self, uuid, token):
-        url = "https://mobile-elb.antich.at/functions/BlockPrivate"
-        json_payload = {
-            "blockedId": uuid,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Block a user.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    pass
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            uuid (str): The UUID of the user to be blocked.
+            token (str): The authentication token for the bot.
+        """
+        return(await botto.block_user(self,uuid,token))
 
     async def unblock_user(self, uuid, token):
-        url = "https://mobile-elb.antich.at/functions/UnblockPrivate"
-        json_payload = {
-            "blockedId": uuid,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Unblock a user.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    pass
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            uuid (str): The UUID of the user to be unblocked.
+            token (str): The authentication token for the bot.
+        """
+        return(await botto.unblock_user(self,uuid,token))
 
     async def get_dialogue(self, dialogue, token):
-        url = "https://mobile-elb.antich.at/functions/getDialogue"
-        json_payload = {
-            "dialogueId": dialogue,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Get information about a specific dialogue.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    data = await r.json()
-                    dialogue = Dialogue(data["result"])
-                    return dialogue
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            dialogue (str): The ID of the dialogue to retrieve information for.
+            token (str): The authentication token for the bot.
+
+        Returns:
+            Dialogue: A Dialogue instance representing the specified dialogue.
+        """
+        return(await botto.get_dialogue(self,dialogue,token))
     
     async def get_topchats(self, token):
-        url = "https://mobile-elb.antich.at/functions/getTopChats"
-        json_payload = {
-            "laterThen": {
-              "iso": "2021-01-31T22:55:08.931Z",
-              "__type": "Date"
-            },
-            "searchText": "",
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Get the top chat dialogues.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    data = await r.json()
-                    dialogues = [Dialogue(dialogue) for dialogue in data["result"]]
-                    return dialogues
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            token (str): The authentication token for the bot.
+
+        Returns:
+            list: A list of Dialogue instances representing the top chat dialogues.
+        """
+        return(await botto.get_topchats(self,token))
 
     async def join_chat(self, token, dialogue):
-        url = "https://mobile-elb.antich.at/functions/joinGroupChat"
-        json_payload = {
-            "chat": dialogue,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Join a chat dialogue.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    data = await r.json()
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            token (str): The authentication token for the bot.
+            dialogue (str): The ID of the chat dialogue to join.
+        """
+        return(await botto.join_chat(self,token,dialogue))
 
     async def exit_chat(self, token, dialogue):
-        url = "https://mobile-elb.antich.at/functions/exitGroupChat"
-        json_payload = {
-            "chat": dialogue,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+        """
+        Exit a chat dialogue.
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    data = await r.json()
-        except Exception as e:
-            print(f"Error: {e}")
+        Args:
+            token (str): The authentication token for the bot.
+            dialogue (str): The ID of the chat dialogue to exit.
+        """
+        return(await botto.exit_chat(self,token,dialogue))
     
     async def send_gift(self,gift_type,reciever,dialogue,session_token):
-        url="https://mobile-elb.antich.at/functions/purchaseGift"
-        json_payload={
-            "currency": "karma",
-            "artifactName": gift_type,
-            "receiverId": reciever,
-            "dialogueId": dialogue,
-            "v": 10001,
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": session_token
-        }
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, json=json_payload) as r:
-                    data = await r.json()
-        except Exception as e:
-            print(f"Error: {e}")
+        """
+        Send a gift
+
+        Parameters:
+        gift_type (str): The type of gift to send e.g. rose.
+        reciever (str): The recipient's ID or username.
+        dialogue (str): The ID of the dialogue or conversation related to the gift.
+        session_token (str): A session token for authentication and authorization.
+
+        Example:
+        result = await bot.send_gift("rose", "user123", "dialogue456", "your_session_token_here")
+        print(result)
+        """
+        return(await botto.send_gift(self,gift_type,reciever,dialogue,session_token))
