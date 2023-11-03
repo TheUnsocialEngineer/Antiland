@@ -6,7 +6,8 @@ from Antiland.user import User
 import asyncio
 
 class Bot:
-    r"""
+    """
+    
     The `Bot` class represents a bot on the Antiland platform.
 
     Args:
@@ -19,27 +20,9 @@ class Bot:
         running (bool): A flag to indicate if the bot is running.
         session_token (str): The session token for authentication.
         message_updater (MessageUpdater): An instance of the MessageUpdater class.
-        commands (dict): A dictionary to store bot commands.
         dialogue (str): The ID of the dialogue associated with the bot.
         chats (dict): A dictionary to store chat-related data.
         url (str): The URL for subscribing to chat updates.
-
-    Methods:
-        process_message(message, token): Process incoming messages and execute commands.
-        start(token, selfbot=False): Start the bot, log in, and initiate message updates.
-        command(name): Decorator to define bot commands.
-        update_profile(session_token, **kwargs): Update the bot's profile accepts age, profileName and aboutMe as kwargs.
-        stats(session_token): Get account statistics.
-        translate(token, message, message_id): Translate a message.
-        get_contacts(token): Get the bot's contacts, returns an instance of the User class.
-        add_contact(uuid, token): Add a contact to the bot's list.
-        delete_contact(uuid, token): Delete a contact from the bot's list.
-        block_user(uuid, token): Block a user.
-        unblock_user(uuid, token): Unblock a user.
-        get_dialogue(dialogue, token): Get information about a specific dialogue.
-        get_topchats(token): Get the top chat dialogues.
-        join_chat(token, dialogue): Join a chat dialogue.
-        exit_chat(token, dialogue): Exit a chat dialogue.
     """
 
     def __init__(self, prefix, dialogue, session_token=None):
@@ -91,19 +74,45 @@ class Bot:
                     return (username, gender, main_name)
     
     async def on_message(self, sender, text):
+        """
+        Process incoming messages and execute commands.
+        
+        Args:
+            sender (str): The sender of the message.
+            text (str): The text of the message.
+        """
         # Trigger message event
         for event_name, event_func in self.events.items():
             await event_func(sender, text)
 
     def event(self, func):
+        """
+        Decorator to define custom event functions.
+
+        Args:
+            func (function): The event function to be registered.
+
+        Returns:
+            function: The decorated event function.
+        """
         self.events[func.__name__] = func
         return func
 
     def run_events(self):
+        """
+        Run all registered event functions.
+        """
         for event_name, event_func in self.events.items():
             asyncio.create_task(event_func())
 
     async def update_profile(self, session_token, **kwargs):
+        """
+        Update the bot's profile with the provided attributes.
+
+        Args:
+            session_token (str): The session token for authentication.
+            kwargs: Keyword arguments for profile attributes (e.g., age, profileName, aboutMe).
+        """
         base_url = 'https://mobile-elb.antich.at/classes/_User/mV1UqOtkyL'
         common_data = {
             "_method": "PUT",
@@ -128,6 +137,15 @@ class Bot:
             print(f"Error: {e}")
 
     async def get_stats(self, session_token):
+        """
+        Get account statistics.
+
+        Args:
+            session_token (str): The session token for authentication.
+
+        Returns:
+            Account: An Account instance containing account statistics.
+        """
         url = "https://mobile-elb.antich.at/users/me"
         json_data = {
             "_method": "GET",
@@ -150,6 +168,17 @@ class Bot:
             print(f"Error: {e}")
 
     async def translate(self, token, message, message_id):
+        """
+        Translate a message.
+
+        Args:
+            token (str): The authentication token for the bot.
+            message (str): The message to be translated.
+            message_id (str): The message ID.
+
+        Returns:
+            str: The translated message.
+        """
         url = "https://mobile-elb.antich.at/functions/translateMessage"
         json_data = {
             "text": message,
@@ -173,6 +202,15 @@ class Bot:
             print(f"Error: {e}")
 
     async def get_contacts(self, token):
+        """
+        Get the bot's contacts.
+
+        Args:
+            token (str): The authentication token for the bot.
+
+        Returns:
+            list: A list of User instances representing bot contacts.
+        """
         url = "https://mobile-elb.antich.at/functions/getContacts"
         json_payload = {
             "v": 10001,
@@ -192,6 +230,15 @@ class Bot:
             print(f"Error: {e}")
 
     async def add_contact(self, uuid, token):
+        """
+        Add a contact to the bot's contact list.
+
+        Args:
+            uuid (str): The UUID of the contact to be added.
+            token (str): The authentication token for the bot.
+        Returns:
+            User: A User instance representing the specified user.
+        """
         url = "https://www.antichat.me/uat/parse/functions/addContact"
         json_payload = {
             "contact": uuid,
@@ -210,6 +257,13 @@ class Bot:
             print(f"Error: {e}")
 
     async def delete_contact(self, uuid, token):
+        """
+        Delete a contact from the bot's contact list.
+
+        Args:
+            uuid (str): The UUID of the contact to be deleted.
+            token (str): The authentication token for the bot.
+        """
         url = "https://mobile-elb.antich.at/functions/deleteContact"
         json_payload = {
             "contact": uuid,
@@ -228,6 +282,13 @@ class Bot:
             print(f"Error: {e}")
 
     async def block_user(self, uuid, token):
+        """
+        Block a user.
+
+        Args:
+            uuid (str): The UUID of the user to be blocked.
+            token (str): The authentication token for the bot.
+        """
         url = "https://mobile-elb.antich.at/functions/BlockPrivate"
         json_payload = {
             "blockedId": uuid,
@@ -246,6 +307,13 @@ class Bot:
             print(f"Error: {e}")
 
     async def unblock_user(self, uuid, token):
+        """
+        Unblock a user.
+
+        Args:
+            uuid (str): The UUID of the user to be unblocked.
+            token (str): The authentication token for the bot.
+        """
         url = "https://mobile-elb.antich.at/functions/UnblockPrivate"
         json_payload = {
             "blockedId": uuid,
@@ -264,6 +332,16 @@ class Bot:
             print(f"Error: {e}")
 
     async def get_dialogue(self, dialogue, token):
+        """
+        Get information about a specific dialogue.
+
+        Args:
+            dialogue (str): The ID of the dialogue to retrieve information for.
+            token (str): The authentication token for the bot.
+
+        Returns:
+            Dialogue: A Dialogue instance representing the specified dialogue.
+        """
         url = "https://mobile-elb.antich.at/functions/getDialogue"
         json_payload = {
             "dialogueId": dialogue,
@@ -284,6 +362,15 @@ class Bot:
             print(f"Error: {e}")
     
     async def get_topchats(self, token):
+        """
+        Get the top chat dialogues.
+
+        Args:
+            token (str): The authentication token for the bot.
+
+        Returns:
+            list: A list of Dialogue instances representing the top chat dialogues.
+        """
         url = "https://mobile-elb.antich.at/functions/getTopChats"
         json_payload = {
             "laterThen": {
@@ -308,6 +395,13 @@ class Bot:
             print(f"Error: {e}")
 
     async def join_chat(self, token, dialogue):
+        """
+        Join a chat dialogue.
+
+        Args:
+            token (str): The authentication token for the bot.
+            dialogue (str): The ID of the chat dialogue to join.
+        """
         url = "https://mobile-elb.antich.at/functions/joinGroupChat"
         json_payload = {
             "chat": dialogue,
@@ -326,6 +420,13 @@ class Bot:
             print(f"Error: {e}")
 
     async def exit_chat(self, token, dialogue):
+        """
+        Exit a chat dialogue.
+
+        Args:
+            token (str): The authentication token for the bot.
+            dialogue (str): The ID of the chat dialogue to exit.
+        """
         url = "https://mobile-elb.antich.at/functions/exitGroupChat"
         json_payload = {
             "chat": dialogue,

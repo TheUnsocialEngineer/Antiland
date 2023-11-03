@@ -76,5 +76,5 @@ class MessageUpdater:
         self.running = False
 
     async def callback(self,message):
-        # Implement your callback logic here
+        # Callback logic 
         return(message)

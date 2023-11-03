@@ -7,7 +7,7 @@ import asyncio
 
 class Bot:
     r"""
-    The `Bot` class represents a bot on the Antiland platform.
+    The `Bot` class represents a bot on the Antiland platform, providing a variety of features and methods for interacting with the platform. 
 
     Args:
         prefix (str): The command prefix to trigger bot commands.
@@ -16,11 +16,12 @@ class Bot:
 
     Attributes:
         prefix (str): The command prefix to trigger bot commands.
-        running (bool): A flag to indicate if the bot is running.
+        running (bool): A flag to indicate if the bot is currently running.
         token (str): The authentication token.
         session_token (str): The session token for authentication.
-        message_updater (MessageUpdater): An instance of the MessageUpdater class.
-        commands (dict): A dictionary to store bot commands.
+        message_updater (MessageUpdater): An instance of the MessageUpdater class for managing incoming messages.
+        commands (dict): A dictionary to store user-defined bot commands.
+        events (dict): A dictionary to store user-defined event handlers.
         dialogue (str): The ID of the dialogue associated with the bot.
         chats (dict): A dictionary to store chat-related data.
         url (str): The URL for subscribing to chat updates.
@@ -28,20 +29,34 @@ class Bot:
     Methods:
         process_message(message, token): Process incoming messages and execute commands.
         start(token, selfbot=False): Start the bot, log in, and initiate message updates.
-        login(token): Log in to the Antiland platform.
+        login(token): Log in to the Antiland platform and retrieve user information.
         command(name): Decorator to define bot commands.
-        update_profile(session_token, **kwargs): Update the bot's profile.
-        stats(session_token): Get account statistics.
+        update_profile(session_token, **kwargs): Update the bot's profile with specified attributes.
+        get_stats(session_token): Retrieve account statistics.
         translate(token, message, message_id): Translate a message.
-        get_contacts(token): Get the bot's contacts, returns an instance of the User class.
-        add_contact(uuid, token): Add a contact to the bot's list.
-        delete_contact(uuid, token): Delete a contact from the bot's list.
+        get_contacts(token): Get the bot's contacts as instances of the User class.
+        add_contact(uuid, token): Add a contact to the bot's contact list.
+        delete_contact(uuid, token): Delete a contact from the bot's contact list.
         block_user(uuid, token): Block a user.
         unblock_user(uuid, token): Unblock a user.
-        get_dialogue(dialogue, token): Get information about a specific dialogue.
-        get_topchats(token): Get the top chat dialogues.
+        get_dialogue(dialogue, token): Retrieve information about a specific dialogue.
+        get_topchats(token): Retrieve the top chat dialogues.
         join_chat(token, dialogue): Join a chat dialogue.
         exit_chat(token, dialogue): Exit a chat dialogue.
+
+    Examples:
+        bot = Bot(prefix='!', dialogue='4fkzGJsDs2', session_token='r:68ff2243463ee75afb4218f0a584b543')
+        bot.start('your_auth_token')  # Start the bot with your authentication token.
+
+    Usage:
+        - Create a `Bot` instance by providing a command prefix, optional dialogue ID,session token.
+        - Define bot commands using the `@bot.command` decorator and event handlers using the `@bot.event` decorator.
+        - Start the bot with your authentication token using the `start` method.
+        - The bot processes incoming messages, executes commands, and triggers event handlers based on message content.
+        - Use various methods to interact with the Antiland platform, manage contacts, and perform actions within chat dialogues.
+
+    Note:
+        This class provides a framework for building and running an Antiland bot. You can extend its functionality by defining custom commands and event handlers.
     """
 
     def __init__(self, prefix, dialogue, session_token=None):
