@@ -1,5 +1,49 @@
 class Account:
-    r"""Please """
+    """
+    Represents an account on the Antiland platform, providing access to various account-related properties.
+
+    Attributes:
+        objectId (str): The unique identifier for the account.
+        lastOpen (str): The timestamp of the last account activity.
+        userLangs (list): A list of languages preferred by the user.
+        username (str): The username associated with the account.
+        country (str): The user's country.
+        lang (str): The user's preferred language.
+        avatar (str): The URL of the user's avatar.
+        likesMale (bool): Indicates whether the user likes males.
+        likesFemale (bool): Indicates whether the user likes females.
+        color (str): The user's chosen color.
+        antiKarma (int): The user's anti-karma value.
+        rating (int): The user's rating on the platform.
+        msgCount (int): The total count of messages sent by the user.
+        pvtcCount (int): The total count of private chats the user has participated in.
+        age (int): The user's age.
+        search (str): The user's search preferences.
+        createdAt (str): The timestamp when the account was created.
+        updatedAt (str): The timestamp when the account was last updated.
+        quest (str): The user's quest information.
+        profileName (str): The user's profile name.
+        pvtChannelId (str): The private channel ID.
+        dOk (bool): Indicates whether the user has enabled D-OK.
+        blockedBy (list): A list of users who have blocked the account.
+        totalBans (int): The total count of bans applied to the user.
+        more (str): Additional user information.
+        female (bool): Indicates the user's gender (female or not).
+        minKarma (int): The minimum required karma value.
+        acceptRandoms (bool): Indicates whether the user accepts random connections.
+        lastChangeDate (str): The timestamp of the last change to the user's account.
+        email (str): The user's email address.
+        emailIsVerified (bool): Indicates whether the user's email address is verified.
+        artifacts (list): A list of user artifacts.
+        lastAction (str): The timestamp of the user's last action.
+        authData (str): User authentication data.
+        emailIsValid (bool): Indicates whether the user's email is valid.
+        ACL (str): The Access Control List associated with the account.
+        __type (str): The type of the account data.
+        className (str): The class name of the account data.
+        sessionToken (str): The session token associated with the account.
+
+    """ 
     def __init__(self, data):
         self._data = data
 
