@@ -37,17 +37,21 @@ class Bot:
         self.chats = {}
         self.dialogue = dialogue
         self.url = f"https://ps.pndsn.com/v2/subscribe/sub-c-24884386-3cf2-11e5-8d55-0619f8945a4f/{self.dialogue}/0?heartbeat=300&tt=16925582152759863&tr=42&uuid=0P3kmjSyFv&pnsdk=PubNub-JS-Web%2F4.37.0"
-
     def start(self, token, selfbot=False):
         if token:
             # Create an event loop to run the async function
             loop = asyncio.get_event_loop()
             login = loop.run_until_complete(self.login_async(token))
-            main_username = login[2]
-            self.message_updater = MessageUpdater(self.url, main_username,selfbot=False)
+            try:
+                main_username = login[2]
+            except:
+                print("Invalid Session Token")
+                exit()
+            self.message_updater = MessageUpdater(self.url, main_username, selfbot=False)
             self.message_updater.callback = self.on_message
             loop.run_until_complete(self.message_updater.run(selfbot))
             self.run_events()
+
 
     async def login_async(self, token):
         """:meta private:"""
@@ -83,7 +87,7 @@ class Bot:
         """
         # Trigger message event
         for event_name, event_func in self.events.items():
-            await event_func(sender, text)
+            await event_func(text)
 
     def event(self, func):
         """
@@ -437,6 +441,26 @@ class Bot:
             "_SessionToken": token
         }
 
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+        except Exception as e:
+            print(f"Error: {e}")
+    
+    async def send_gift(self,gift_type,reciever,dialogue,session_token):
+        url="https://mobile-elb.antich.at/functions/purchaseGift"
+        json_payload={
+                "currency": "karma",
+                "artifactName": gift_type,
+                "receiverId": reciever,
+                "dialogueId": dialogue,
+                "v": 10001,
+                "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+                "_ClientVersion": "js1.11.1",
+                "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+                "_SessionToken": session_token
+            }
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(url, json=json_payload) as r:
