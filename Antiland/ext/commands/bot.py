@@ -364,3 +364,23 @@ class Bot:
                     data = await r.json()
         except Exception as e:
             print(f"Error: {e}")
+    
+    async def send_gift(self,gift_type,reciever,dialogue,session_token):
+        url="https://mobile-elb.antich.at/functions/purchaseGift"
+        json_payload={
+            "currency": "karma",
+            "artifactName": gift_type,
+            "receiverId": reciever,
+            "dialogueId": dialogue,
+            "v": 10001,
+            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
+            "_ClientVersion": "js1.11.1",
+            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
+            "_SessionToken": session_token
+        }
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json=json_payload) as r:
+                    data = await r.json()
+        except Exception as e:
+            print(f"Error: {e}")
