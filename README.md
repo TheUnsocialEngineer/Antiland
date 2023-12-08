@@ -11,7 +11,7 @@ bot account similar to discord.py
 
 
 
-for more examples and documentation read the **[Docs](https://antiland.readthedocs.io/en/latest/)
+for more examples and documentation read the [Docs](https://antiland.readthedocs.io/en/latest/)
 
 
 ## Features
