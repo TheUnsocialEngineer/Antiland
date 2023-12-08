@@ -11,7 +11,7 @@ bot account similar to discord.py
 
 
 
-
+for more examples read the [Docs](https://antiland.readthedocs.io/en/latest/)
 
 
 ## Features
@@ -85,5 +85,3 @@ async def debug():
 bot.start(session_token)
     
 ```
-
-for more examples read the docs at [Docs](https://antiland.readthedocs.io/en/latest/)
