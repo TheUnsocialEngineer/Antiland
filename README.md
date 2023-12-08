@@ -58,7 +58,7 @@ bot.start(session_token)
 ```
 
 
-below is a very basic example for logging in and registering a hello command
+Below is a very basic example for logging in and registering a hello command
 which when ran will send hello world into the chat and register a debug command
 which will send a message to the channel of your choice
 
