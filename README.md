@@ -11,7 +11,7 @@ bot account similar to discord.py
 
 
 
-for more examples and documentation read the [Docs](https://antiland.readthedocs.io/en/latest/)
+For more examples and documentation read the [Docs](https://antiland.readthedocs.io/en/latest/)
 
 
 ## Features
@@ -32,14 +32,14 @@ to install run pip3 install Antiland
 
 ## Usage/Examples
 
-before you start you need to get the session token which will allow you to log into the account and the dialogue id of the chat you want to listen for commands in
+Before you start you need to get the session token which will allow you to log into the account and the dialogue id of the chat you want to listen for commands in
 
-to get the token and you use developer consoles network tab to look at any outgoing connection such as a sending a message, the session token is stored in the json payload e.g 
+To get the token and you use developer consoles network tab to look at any outgoing connection such as a sending a message, the session token is stored in the json payload e.g 
 
 ![App Screenshot](https://i.imgur.com/ZkVi80e.png)
 
 
-below is an example of a bot that prints every message it receives
+Below is an example of a bot that prints every message it receives
 
 ```python
 import Antiland
