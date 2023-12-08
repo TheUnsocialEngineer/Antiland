@@ -86,4 +86,4 @@ bot.start(session_token)
     
 ```
 
-for more examples read the [docs] (https://antiland.readthedocs.io/en/latest/)
+for more examples read the docs at [Docs](https://antiland.readthedocs.io/en/latest/)
