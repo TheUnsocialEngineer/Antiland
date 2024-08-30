@@ -5,6 +5,7 @@ from Antiland.account import Account
 from Antiland.user import User
 from Antiland.bot import Bot as botto
 import asyncio
+from requests.structures import CaseInsensitiveDict
 
 class Bot:
     r"""
@@ -65,6 +66,7 @@ class Bot:
         self.running = False
         self.token = None
         self.session_token = session_token
+        self.user_id= None
         self.message_updater = None
         self.commands = {}
         self.events = {}
@@ -83,33 +85,51 @@ class Bot:
             except:
                 print("Invalid Session Token")
                 exit()
-            self.message_updater = MessageUpdater(self.url, main_username,selfbot=False)
+            self.message_updater = MessageUpdater(self.url, main_username, selfbot=False)
             self.message_updater.callback = self.on_message
+            self.user_id = login[3]
+            self.token = token
             loop.run_until_complete(self.message_updater.run(selfbot))
             self.run_events()
 
-    async def login_async(self, token):
-        url = "https://mobile-elb.antich.at/users/me"
-        json_data = {
-            "_method": "GET",
-            "_ApplicationId": "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5",
-            "_ClientVersion": "js1.11.1",
-            "_InstallationId": "3e355bb2-ce1f-0876-2e6b-e3b19adc4cef",
-            "_SessionToken": token
-        }
+    async def login_async(self,token):
+        """:meta private:"""
+        url = "https://mobile-elb.antich.at/functions/v2:profile.me?version=web/chat/2.0&localization=en"
+        
+        headers = CaseInsensitiveDict()
+        headers["Host"] = "mobile-elb.antich.at"
+        headers["Accept"] = "*/*"
+        headers["Accept-Encoding"] = "gzip, deflate, br, zstd"
+        headers["Accept-Language"] = "en-US,en;q=0.9"
+        headers["Content-Length"] = "2"
+        headers["Content-Type"] = "text/plain"
+        headers["Origin"] = "https://www.antiland.com"
+        headers["Priority"] = "u=1, i"
+        headers["Referer"] = "https://www.antiland.com/"
+        headers["Sec-Ch-Ua-Mobile"] = "?0"
+        headers["Sec-Fetch-Dest"] = "empty"
+        headers["Sec-Fetch-Mode"] = "cors"
+        headers["Sec-Fetch-Site"] = "cross-site"
+        headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 OPR/111.0.0.0"
+        headers["X-Parse-Application-Id"] = "fUEmHsDqbr9v73s4JBx0CwANjDJjoMcDFlrGqgY5"
+        headers["X-Parse-Session-Token"] = token
+        print(headers)
+        data = {}
         async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=json_data) as response:
+            async with session.post(url, headers=headers,json=data) as response:
                 if response.status == 200:
                     user_data = await response.json()
-                    username = user_data.get("profileName", "N/A")
-                    gender = user_data.get("female", "N/A")
+                    username = user_data.get("result", {}).get("profileName", "N/A")
+                    user_id = user_data.get("result", {}).get("id", "N/A")
+                    print(username)
+                    gender = user_data.get("result", {}).get("female", "N/A")
                     if gender:
                         emoji = "🚺"
                     else:
                         emoji = "🚹"
                     main_name = f"{username} {emoji}"
                     print(f"Logged in as {username}")
-                    return (username, gender, main_name)
+                    return (username, gender, main_name,user_id)
 
     def command(self, func):
         self.commands[func.__name__] = func

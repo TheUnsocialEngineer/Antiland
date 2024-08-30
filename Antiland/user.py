@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 class User:
     r"""
@@ -146,25 +146,36 @@ class User:
     def get_time(self, date_str):
         r""":meta private:"""
         if date_str:
-            date_time = datetime.fromisoformat(date_str)
-            return date_time.strftime("%H:%M:%S")
+            try:
+                date_time = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%fZ")
+                return date_time.strftime("%d/%m/%Y")
+            except ValueError as e:
+                print(e)
+                return None
         else:
             return None
 
     def get_date(self, date_str):
         r""":meta private:"""
         if date_str:
-            date_time = datetime.fromisoformat(date_str)
-            return date_time.strftime("%d/%m/%y")
+            try:
+                date_time = datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+                return date_time.strftime("%d/%m/%Y")
+            except ValueError:
+                return None
         else:
             return None
 
     def get_formatted_datetime(self, date_data):
-        r""":meta private:"""
         if date_data and 'iso' in date_data:
             iso_date_str = date_data['iso']
-            date_time = datetime.fromisoformat(iso_date_str)
-            return date_time.strftime("%H:%M:%S")
+            try:
+                # Parse the ISO date string using strptime with microseconds
+                date_time = datetime.strptime(iso_date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+                # Format the date as desired
+                return date_time.strftime(("%H:%M:%S"))
+            except ValueError:
+                return None
         else:
             return None
 
@@ -172,8 +183,13 @@ class User:
         r""":meta private:"""
         if date_data and 'iso' in date_data:
             iso_date_str = date_data['iso']
-            date_time = datetime.fromisoformat(iso_date_str)
-            return date_time.strftime('%d/%m/%Y')
+            try:
+                # Parse the ISO date string using strptime with milliseconds
+                date_time = datetime.strptime(iso_date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+                # Format the date as desired
+                return date_time.strftime("%d/%m/%Y")
+            except ValueError:
+                return None
         else:
             return None
- 
+
